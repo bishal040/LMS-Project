@@ -34,5 +34,12 @@ module.exports = {
       handler: 'enrollment.check',
       config: { policies: [] },
     },
+    // Custom: Get all enrolled students with progress for a course (instructor/content manager)
+    {
+      method: 'GET',
+      path: '/enrollments/course-students/:courseId',
+      handler: 'enrollment.courseStudents',
+      config: { policies: [] },
+    },
   ],
 };

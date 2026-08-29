@@ -9,7 +9,6 @@ import {
 } from 'react-icons/fi';
 import { useAuth } from '@/contexts/AuthContext';
 import { getAdminStats, getAllUsers, getRoles, updateUserRole } from '@/lib/api';
-import ProtectedRoute from '@/components/shared/ProtectedRoute';
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
 import { toast } from 'react-toastify';
 
@@ -22,7 +21,7 @@ import { toast } from 'react-toastify';
  * 3. Stats include: usersCount, coursesCount, enrollmentsCount, blogsCount, recentEnrollments
  * 4. Everything is protected by role-based access — only 'admin' role can access this page
  */
-export default function AdminDashboard() {
+export default function AdminView() {
   const { user } = useAuth();
   const [stats, setStats] = useState(null);
   const [users, setUsers] = useState([]);
@@ -126,7 +125,6 @@ export default function AdminDashboard() {
   };
 
   return (
-    <ProtectedRoute roles={['admin']}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Header */}
         <motion.div
@@ -369,6 +367,5 @@ export default function AdminDashboard() {
           </motion.div>
         )}
       </div>
-    </ProtectedRoute>
   );
 }

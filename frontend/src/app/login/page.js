@@ -17,10 +17,7 @@ export default function LoginPage() {
 
   // Redirect if already logged in
   if (isAuthenticated) {
-    if (isAdmin) router.push('/admin');
-    else if (isContentManager) router.push('/content-manager');
-    else if (isInstructor) router.push('/instructor');
-    else router.push('/dashboard');
+    router.push('/dashboard');
     return null;
   }
 
@@ -36,12 +33,8 @@ export default function LoginPage() {
       const user = await login(formData.identifier, formData.password);
       toast.success(`Welcome back, ${user?.username || 'User'}!`);
       
-      // Redirect based on role
-      const role = user?.role?.type || '';
-      if (role === 'admin') router.push('/admin');
-      else if (role === 'content_manager') router.push('/content-manager');
-      else if (role === 'instructor') router.push('/instructor');
-      else router.push('/dashboard');
+      // Redirect to unified dashboard
+      router.push('/dashboard');
     } catch (err) {
       toast.error(err.message || 'Invalid email or password');
     } finally {

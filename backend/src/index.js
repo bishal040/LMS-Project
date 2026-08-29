@@ -142,6 +142,7 @@ module.exports = {
           'api::progress.progress.courseProgress',
           'api::enrollment.enrollment.me',
           'api::enrollment.enrollment.check',
+          'api::enrollment.enrollment.courseStudents',
         ]);
       }
 
@@ -173,6 +174,7 @@ module.exports = {
           'api::progress.progress.courseProgress',
           'api::enrollment.enrollment.me',
           'api::enrollment.enrollment.check',
+          'api::enrollment.enrollment.courseStudents',
         ]);
       }
 
@@ -211,6 +213,7 @@ module.exports = {
           'api::enrollment.enrollment.create',
           'api::enrollment.enrollment.me',
           'api::enrollment.enrollment.check',
+          'api::enrollment.enrollment.courseStudents',
           'api::quiz-attempt.quiz-attempt.create',
           'api::quiz-attempt.quiz-attempt.me',
         ]);

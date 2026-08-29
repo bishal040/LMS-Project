@@ -5,11 +5,11 @@ import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   FiBookOpen, FiPlus, FiEdit3, FiTrash2, FiUsers,
-  FiList, FiAward, FiEye, FiEyeOff, FiX, FiCheck, FiArrowRight
+  FiList, FiAward, FiEye, FiEyeOff, FiX, FiCheck, FiArrowRight,
+  FiBarChart2, FiMail, FiCalendar, FiChevronRight
 } from 'react-icons/fi';
 import { useAuth } from '@/contexts/AuthContext';
-import { getCourses, createCourse, updateCourse, deleteCourse, createLesson, createQuiz } from '@/lib/api';
-import ProtectedRoute from '@/components/shared/ProtectedRoute';
+import { getCourses, createCourse, updateCourse, deleteCourse, createLesson, createQuiz, updateLesson, updateQuiz, getCourseStudents } from '@/lib/api';
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
 import { toast } from 'react-toastify';
 
@@ -22,7 +22,7 @@ import { toast } from 'react-toastify';
  * 3. Allows toggling course status between draft/published
  * 4. Provides quick actions to add lessons and quizzes to each course
  */
-export default function InstructorDashboard() {
+export default function InstructorView() {
   const { user } = useAuth();
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -37,13 +37,23 @@ export default function InstructorDashboard() {
   const [editingLessonId, setEditingLessonId] = useState(null);
   const [editingQuizId, setEditingQuizId] = useState(null);
 
+  // Student progress tracking
+  const [showStudentsModal, setShowStudentsModal] = useState(null); // courseId
+  const [studentsData, setStudentsData] = useState(null);
+  const [loadingStudents, setLoadingStudents] = useState(false);
+  const [selectedStudent, setSelectedStudent] = useState(null);
+
   useEffect(() => {
     fetchCourses();
   }, []);
 
   const fetchCourses = async () => {
     try {
-      const data = await getCourses();
+      let filters = '';
+      if (!isContentManager && userRole === 'instructor') {
+        filters = `filters[instructor][id][$eq]=${user.id}`;
+      }
+      const data = await getCourses(filters);
       setCourses(data?.data || []);
     } catch (err) {
       console.error('Failed to fetch courses:', err);
@@ -199,10 +209,42 @@ export default function InstructorDashboard() {
     setQuizData({ ...quizData, questions: updated });
   };
 
-  if (loading) return <LoadingSpinner label="Loading instructor dashboard..." />;
+  const handleViewStudents = async (courseId) => {
+    setShowStudentsModal(courseId);
+    setSelectedStudent(null);
+    setLoadingStudents(true);
+    try {
+      const res = await getCourseStudents(courseId);
+      setStudentsData(res.data);
+    } catch (err) {
+      console.error('Failed to fetch students:', err);
+      toast.error('Failed to load student data');
+    } finally {
+      setLoadingStudents(false);
+    }
+  };
+
+  const getProgressColor = (pct) => {
+    if (pct >= 80) return 'bg-success';
+    if (pct >= 50) return 'bg-primary';
+    if (pct >= 25) return 'bg-warning';
+    return 'bg-error';
+  };
+
+  const getProgressBgColor = (pct) => {
+    if (pct >= 80) return 'bg-success/10';
+    if (pct >= 50) return 'bg-primary/10';
+    if (pct >= 25) return 'bg-warning/10';
+    return 'bg-error/10';
+  };
+
+  // Determine if user is content_manager (sees more details) vs instructor
+  const userRole = user?.role?.type || '';
+  const isContentManager = userRole === 'content_manager' || userRole === 'admin';
+
+  if (loading) return <LoadingSpinner label="Loading course management..." />;
 
   return (
-    <ProtectedRoute roles={['instructor', 'content_manager', 'admin']}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Header */}
         <motion.div
@@ -215,8 +257,8 @@ export default function InstructorDashboard() {
               <FiBookOpen className="w-6 h-6" />
             </div>
             <div>
-              <h1 className="text-3xl font-black tracking-tight">Instructor Dashboard</h1>
-              <p className="text-sm text-muted">Manage your courses, lessons, and quizzes.</p>
+              <h1 className="text-3xl font-black tracking-tight">Course Management</h1>
+              <p className="text-sm text-muted">Manage courses, lessons, and quizzes.</p>
             </div>
           </div>
           <button
@@ -232,7 +274,7 @@ export default function InstructorDashboard() {
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="bg-surface border border-border rounded-[2rem] p-6 flex items-center gap-4">
             <div className="w-14 h-14 rounded-2xl bg-primary/10 text-primary flex items-center justify-center"><FiBookOpen className="w-6 h-6" /></div>
             <div>
-              <p className="text-sm font-bold text-muted uppercase tracking-widest mb-1">My Courses</p>
+              <p className="text-sm font-bold text-muted uppercase tracking-widest mb-1">Total Courses</p>
               <p className="text-3xl font-black">{courses.length}</p>
             </div>
           </motion.div>
@@ -306,7 +348,14 @@ export default function InstructorDashboard() {
                     </div>
 
                     {/* Actions */}
-                    <div className="flex items-center gap-2 flex-shrink-0">
+                    <div className="flex items-center gap-2 flex-shrink-0 flex-wrap">
+                      <button
+                        onClick={() => handleViewStudents(courseId)}
+                        className="p-3 bg-primary/5 border border-primary/20 rounded-xl hover:bg-primary/10 text-primary transition-all"
+                        title="View Students"
+                      >
+                        <FiBarChart2 className="w-4 h-4" />
+                      </button>
                       <button
                         onClick={() => setShowLessonModal(courseId)}
                         className="p-3 bg-background border border-border rounded-xl hover:border-primary/30 hover:text-primary transition-all"
@@ -592,7 +641,210 @@ export default function InstructorDashboard() {
             </motion.div>
           )}
         </AnimatePresence>
+
+        {/* ===== STUDENT PROGRESS MODAL ===== */}
+        <AnimatePresence>
+          {showStudentsModal && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
+              onClick={() => { setShowStudentsModal(null); setSelectedStudent(null); setStudentsData(null); }}
+            >
+              <motion.div
+                initial={{ scale: 0.9, y: 20 }}
+                animate={{ scale: 1, y: 0 }}
+                exit={{ scale: 0.9, y: 20 }}
+                onClick={(e) => e.stopPropagation()}
+                className="bg-surface border border-border rounded-[2rem] p-5 sm:p-8 w-full max-w-6xl max-h-[90vh] overflow-hidden shadow-2xl flex flex-col"
+              >
+                {/* Modal Header */}
+                <div className="flex items-center justify-between mb-6">
+                  <div>
+                    <h2 className="text-xl sm:text-2xl font-black tracking-tight flex items-center gap-2">
+                      <FiBarChart2 className="w-5 h-5 text-primary" /> Student Progress
+                    </h2>
+                    {studentsData && (
+                      <p className="text-sm text-muted mt-1">{studentsData.courseTitle} — {studentsData.students?.length || 0} student{studentsData.students?.length !== 1 ? 's' : ''} enrolled</p>
+                    )}
+                  </div>
+                  <button
+                    onClick={() => { setShowStudentsModal(null); setSelectedStudent(null); setStudentsData(null); }}
+                    className="p-2 hover:bg-background rounded-xl transition-colors"
+                  >
+                    <FiX className="w-5 h-5" />
+                  </button>
+                </div>
+
+                {loadingStudents ? (
+                  <div className="flex-1 flex items-center justify-center py-20">
+                    <div className="w-8 h-8 border-3 border-primary/20 border-t-primary rounded-full animate-spin" />
+                  </div>
+                ) : studentsData?.students?.length === 0 ? (
+                  <div className="flex-1 flex flex-col items-center justify-center py-20 text-center">
+                    <div className="w-16 h-16 bg-background rounded-full flex items-center justify-center mb-4">
+                      <FiUsers className="w-7 h-7 text-muted" />
+                    </div>
+                    <h3 className="text-lg font-black mb-2">No students enrolled yet</h3>
+                    <p className="text-sm text-muted">Students will appear here once they enroll in this course.</p>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 flex-1 overflow-hidden">
+                    {/* Student List (left) */}
+                    <div className="lg:col-span-3 flex flex-col overflow-hidden">
+                      {/* Summary bar */}
+                      {studentsData && (() => {
+                        const students = studentsData.students || [];
+                        const avgProgress = students.length > 0
+                          ? Math.round(students.reduce((sum, s) => sum + s.progress.percentage, 0) / students.length)
+                          : 0;
+                        const completedAll = students.filter(s => s.progress.percentage === 100).length;
+                        return (
+                          <div className="grid grid-cols-3 gap-3 mb-4">
+                            <div className="bg-background border border-border rounded-xl p-3 text-center">
+                              <p className="text-[10px] font-black uppercase tracking-widest text-muted">Enrolled</p>
+                              <p className="text-xl font-black text-foreground">{students.length}</p>
+                            </div>
+                            <div className="bg-background border border-border rounded-xl p-3 text-center">
+                              <p className="text-[10px] font-black uppercase tracking-widest text-muted">Avg Progress</p>
+                              <p className="text-xl font-black text-primary">{avgProgress}%</p>
+                            </div>
+                            <div className="bg-background border border-border rounded-xl p-3 text-center">
+                              <p className="text-[10px] font-black uppercase tracking-widest text-muted">Completed</p>
+                              <p className="text-xl font-black text-success">{completedAll}</p>
+                            </div>
+                          </div>
+                        );
+                      })()}
+
+                      <div className="overflow-y-auto flex-1 space-y-2 pr-2 custom-scrollbar">
+                        {(studentsData?.students || []).map((student) => (
+                          <div
+                            key={student.id}
+                            onClick={() => setSelectedStudent(student)}
+                            className={`p-4 border rounded-xl cursor-pointer transition-all ${
+                              selectedStudent?.id === student.id
+                                ? 'bg-primary/5 border-primary shadow-sm'
+                                : 'bg-background border-border hover:border-primary/40'
+                            }`}
+                          >
+                            <div className="flex items-center justify-between mb-2">
+                              <div className="flex items-center gap-3 min-w-0">
+                                <div className="w-9 h-9 rounded-full bg-primary/10 text-primary flex items-center justify-center text-sm font-black flex-shrink-0">
+                                  {student.username?.charAt(0).toUpperCase()}
+                                </div>
+                                <div className="min-w-0">
+                                  <p className="text-sm font-bold truncate">{student.username}</p>
+                                  <p className="text-[10px] text-muted truncate">{student.email}</p>
+                                </div>
+                              </div>
+                              <div className="flex items-center gap-2 flex-shrink-0">
+                                <span className={`text-xs font-black px-2 py-0.5 rounded-full ${getProgressBgColor(student.progress.percentage)} ${
+                                  student.progress.percentage >= 80 ? 'text-success' : student.progress.percentage >= 50 ? 'text-primary' : student.progress.percentage >= 25 ? 'text-warning' : 'text-error'
+                                }`}>
+                                  {student.progress.percentage}%
+                                </span>
+                                <FiChevronRight className="w-4 h-4 text-muted" />
+                              </div>
+                            </div>
+                            {/* Progress bar */}
+                            <div className="w-full h-2 bg-border rounded-full overflow-hidden">
+                              <motion.div
+                                initial={{ width: 0 }}
+                                animate={{ width: `${student.progress.percentage}%` }}
+                                transition={{ duration: 0.8, ease: 'easeOut' }}
+                                className={`h-full rounded-full ${getProgressColor(student.progress.percentage)}`}
+                              />
+                            </div>
+                            <p className="text-[10px] text-muted mt-1">
+                              {student.progress.completedLessons} / {student.progress.totalLessons} lessons completed
+                            </p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Student Detail Panel (right) */}
+                    <div className="lg:col-span-2 bg-background border border-border rounded-2xl p-5 overflow-y-auto max-h-64 lg:max-h-full">
+                      {selectedStudent ? (
+                        <div className="space-y-5">
+                          {/* Student Header */}
+                          <div className="text-center">
+                            <div className="w-16 h-16 rounded-full bg-primary/10 text-primary flex items-center justify-center text-2xl font-black mx-auto mb-3">
+                              {selectedStudent.username?.charAt(0).toUpperCase()}
+                            </div>
+                            <h3 className="text-lg font-black tracking-tight">{selectedStudent.username}</h3>
+                            <p className="text-xs text-muted flex items-center justify-center gap-1 mt-1">
+                              <FiMail className="w-3 h-3" /> {selectedStudent.email}
+                            </p>
+                          </div>
+
+                          {/* Progress Visual */}
+                          <div className="bg-surface border border-border rounded-xl p-4">
+                            <p className="text-[10px] font-black uppercase tracking-widest text-muted mb-3">Course Progress</p>
+                            <div className="flex items-center gap-3">
+                              <div className="relative w-16 h-16 flex-shrink-0">
+                                <svg className="w-16 h-16 -rotate-90" viewBox="0 0 36 36">
+                                  <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" className="text-border" strokeWidth="3" />
+                                  <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" className={selectedStudent.progress.percentage >= 80 ? 'text-success' : selectedStudent.progress.percentage >= 50 ? 'text-primary' : 'text-warning'} strokeWidth="3" strokeDasharray={`${selectedStudent.progress.percentage}, 100`} strokeLinecap="round" />
+                                </svg>
+                                <span className="absolute inset-0 flex items-center justify-center text-xs font-black">{selectedStudent.progress.percentage}%</span>
+                              </div>
+                              <div>
+                                <p className="text-sm font-bold">{selectedStudent.progress.completedLessons} of {selectedStudent.progress.totalLessons}</p>
+                                <p className="text-[10px] text-muted">Lessons Completed</p>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Stats Grid */}
+                          <div className="grid grid-cols-2 gap-3">
+                            <div className="bg-surface border border-border rounded-xl p-3 text-center">
+                              <p className="text-lg font-black">{selectedStudent.quizAttempts}</p>
+                              <p className="text-[10px] text-muted font-bold uppercase tracking-widest">Quiz Attempts</p>
+                            </div>
+                            <div className="bg-surface border border-border rounded-xl p-3 text-center">
+                              <p className="text-lg font-black">{selectedStudent.enrolledAt ? new Date(selectedStudent.enrolledAt).toLocaleDateString() : '—'}</p>
+                              <p className="text-[10px] text-muted font-bold uppercase tracking-widest">Enrolled</p>
+                            </div>
+                          </div>
+
+                          {/* Content Manager gets extra info */}
+                          {isContentManager && (
+                            <div className="bg-surface border border-border rounded-xl p-4">
+                              <p className="text-[10px] font-black uppercase tracking-widest text-muted mb-3">All Enrolled Courses ({selectedStudent.totalEnrollments})</p>
+                              {selectedStudent.enrolledCourses?.length > 0 ? (
+                                <div className="space-y-2">
+                                  {selectedStudent.enrolledCourses.map((c, idx) => (
+                                    <div key={idx} className="flex items-center gap-2 text-sm">
+                                      <FiBookOpen className="w-3 h-3 text-primary flex-shrink-0" />
+                                      <span className="truncate font-medium">{c.title}</span>
+                                    </div>
+                                  ))}
+                                </div>
+                              ) : (
+                                <p className="text-xs text-muted">No other courses</p>
+                              )}
+                            </div>
+                          )}
+                        </div>
+                      ) : (
+                        <div className="flex-1 flex flex-col items-center justify-center text-center py-12">
+                          <div className="w-14 h-14 bg-surface border border-border rounded-full flex items-center justify-center mb-4">
+                            <FiUsers className="w-6 h-6 text-muted" />
+                          </div>
+                          <p className="text-sm font-bold text-muted">Select a student</p>
+                          <p className="text-xs text-muted mt-1">Click on a student to view their details and progress</p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
-    </ProtectedRoute>
   );
 }

@@ -67,9 +67,6 @@ export default function Navbar() {
 
   // Get dashboard link based on role
   const getDashboardLink = () => {
-    if (isAdmin) return '/admin';
-    if (isContentManager) return '/content-manager';
-    if (isInstructor) return '/instructor';
     return '/dashboard';
   };
 
@@ -201,42 +198,12 @@ export default function Navbar() {
                         </div>
 
                         <Link
-                          href={getDashboardLink()}
+                          href="/dashboard"
                           onClick={() => setProfileOpen(false)}
                           className="flex items-center gap-3 px-3 py-2.5 text-sm font-bold text-foreground/70 hover:text-primary hover:bg-surface-hover rounded-xl transition-all"
                         >
                           <FiGrid className="w-4 h-4" /> Dashboard
                         </Link>
-
-                        {(isAdmin || isContentManager) && (
-                          <Link
-                            href="/content-manager"
-                            onClick={() => setProfileOpen(false)}
-                            className="flex items-center gap-3 px-3 py-2.5 text-sm font-bold text-foreground/70 hover:text-primary hover:bg-surface-hover rounded-xl transition-all"
-                          >
-                            <FiEdit3 className="w-4 h-4" /> Manage Blog
-                          </Link>
-                        )}
-
-                        {(isAdmin || isContentManager || isInstructor) && (
-                          <Link
-                            href="/instructor"
-                            onClick={() => setProfileOpen(false)}
-                            className="flex items-center gap-3 px-3 py-2.5 text-sm font-bold text-foreground/70 hover:text-primary hover:bg-surface-hover rounded-xl transition-all"
-                          >
-                            <FiBookOpen className="w-4 h-4" /> Manage Courses
-                          </Link>
-                        )}
-
-                        {isAdmin && (
-                          <Link
-                            href="/admin"
-                            onClick={() => setProfileOpen(false)}
-                            className="flex items-center gap-3 px-3 py-2.5 text-sm font-bold text-foreground/70 hover:text-primary hover:bg-surface-hover rounded-xl transition-all"
-                          >
-                            <FiShield className="w-4 h-4" /> Admin Panel
-                          </Link>
-                        )}
 
                         <button
                           onClick={handleLogout}

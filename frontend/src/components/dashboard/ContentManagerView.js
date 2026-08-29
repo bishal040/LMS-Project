@@ -9,7 +9,6 @@ import {
 } from 'react-icons/fi';
 import { useAuth } from '@/contexts/AuthContext';
 import { getBlogs, createBlog, updateBlog, deleteBlog } from '@/lib/api';
-import ProtectedRoute from '@/components/shared/ProtectedRoute';
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
 import { toast } from 'react-toastify';
 
@@ -23,7 +22,7 @@ import { toast } from 'react-toastify';
  * 4. Edit existing posts inline via a modal
  * 5. Delete posts with confirmation
  */
-export default function ContentManagerDashboard() {
+export default function ContentManagerView() {
   const { user } = useAuth();
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -124,7 +123,6 @@ export default function ContentManagerDashboard() {
   const draftCount = posts.filter(p => (p.attributes || p).status === 'draft').length;
 
   return (
-    <ProtectedRoute roles={['content_manager', 'admin']}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Header */}
         <motion.div
@@ -142,12 +140,7 @@ export default function ContentManagerDashboard() {
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <Link
-              href="/instructor"
-              className="flex items-center gap-2 px-6 py-3 bg-surface border border-border text-foreground text-xs font-black uppercase tracking-widest rounded-2xl hover:bg-surface-hover hover:border-primary/30 hover:text-primary transition-all active:scale-95"
-            >
-              <FiBookOpen /> Manage Courses
-            </Link>
+
             <button
               onClick={openCreateModal}
               className="flex items-center gap-2 px-6 py-3 bg-primary text-white text-xs font-black uppercase tracking-widest rounded-2xl shadow-lg shadow-primary/20 hover:shadow-xl transition-all active:scale-95"
@@ -254,40 +247,61 @@ export default function ContentManagerDashboard() {
         <AnimatePresence>
           {showModal && (
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4" onClick={() => setShowModal(false)}>
-              <motion.div initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.9, y: 20 }} onClick={(e) => e.stopPropagation()} className="bg-surface border border-border rounded-[2rem] p-5 sm:p-8 w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl">
-                <div className="flex items-center justify-between mb-4 sm:mb-6">
-                  <h2 className="text-xl font-black tracking-tight">{editingPost ? 'Edit Post' : 'Create New Post'}</h2>
-                  <button onClick={() => setShowModal(false)} className="p-2 hover:bg-background rounded-xl transition-colors"><FiX className="w-5 h-5" /></button>
+              <motion.div initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.9, y: 20 }} onClick={(e) => e.stopPropagation()} className="bg-surface border border-border rounded-[2rem] p-5 sm:p-8 w-full max-w-3xl max-h-[90vh] overflow-y-auto shadow-2xl">
+                <div className="flex items-center justify-between mb-6">
+                  <div>
+                    <h2 className="text-2xl font-black tracking-tight flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center">
+                        <FiEdit3 className="w-5 h-5" />
+                      </div>
+                      {editingPost ? 'Edit Blog Post' : 'Create New Post'}
+                    </h2>
+                    <p className="text-sm text-muted mt-1">{editingPost ? 'Update your existing blog content.' : 'Write something amazing for your audience.'}</p>
+                  </div>
+                  <button onClick={() => setShowModal(false)} className="p-2 hover:bg-background border border-transparent hover:border-border rounded-xl transition-all"><FiX className="w-5 h-5" /></button>
                 </div>
-                <form onSubmit={handleSubmit} className="space-y-4">
-                  <div>
-                    <label className="block text-xs font-bold uppercase tracking-widest text-muted mb-2">Title</label>
-                    <input type="text" value={formData.title} onChange={(e) => setFormData({ ...formData, title: e.target.value })} placeholder="Blog post title" className="w-full px-4 py-3.5 bg-background border border-border rounded-2xl text-foreground placeholder:text-muted/50 focus:outline-none focus:ring-2 focus:ring-ring text-sm font-medium" required />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-bold uppercase tracking-widest text-muted mb-2">Body</label>
-                    <textarea value={formData.body} onChange={(e) => setFormData({ ...formData, body: e.target.value })} placeholder="Write your blog post content here..." rows={10} className="w-full px-4 py-3.5 bg-background border border-border rounded-2xl text-foreground placeholder:text-muted/50 focus:outline-none focus:ring-2 focus:ring-ring text-sm font-medium resize-none" required />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-bold uppercase tracking-widest text-muted mb-2">Cover Image URL</label>
-                    <input type="text" value={formData.coverImageUrl} onChange={(e) => setFormData({ ...formData, coverImageUrl: e.target.value })} placeholder="https://example.com/image.jpg" className="w-full px-4 py-3.5 bg-background border border-border rounded-2xl text-foreground placeholder:text-muted/50 focus:outline-none focus:ring-2 focus:ring-ring text-sm font-medium" />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-bold uppercase tracking-widest text-muted mb-2">Status</label>
-                    <select value={formData.status} onChange={(e) => setFormData({ ...formData, status: e.target.value })} className="w-full px-4 py-3.5 bg-background border border-border rounded-2xl text-foreground focus:outline-none focus:ring-2 focus:ring-ring text-sm font-bold appearance-none">
-                      <option value="draft">Draft</option>
-                      <option value="published">Published</option>
-                    </select>
-                  </div>
-                  <button type="submit" disabled={submitting} className="w-full py-4 bg-primary text-white text-sm font-black uppercase tracking-widest rounded-2xl shadow-lg shadow-primary/20 hover:shadow-xl transition-all flex items-center justify-center gap-2 disabled:opacity-50 active:scale-[0.98]">
-                    {submitting ? <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <><FiCheck /> {editingPost ? 'Update Post' : 'Create Post'}</>}
-                  </button>
-                </form>
+
+                <div className="bg-background border border-border rounded-[1.5rem] p-5 sm:p-6">
+                  <form onSubmit={handleSubmit} className="space-y-5">
+                    <div>
+                      <label className="block text-[10px] font-black uppercase tracking-widest text-muted mb-2">Post Title</label>
+                      <input type="text" value={formData.title} onChange={(e) => setFormData({ ...formData, title: e.target.value })} placeholder="Enter a catchy title..." className="w-full px-4 py-3 bg-surface border border-border rounded-xl text-foreground placeholder:text-muted/50 focus:outline-none focus:ring-2 focus:ring-primary/50 text-sm font-medium transition-all" required />
+                    </div>
+                    
+                    <div>
+                      <label className="block text-[10px] font-black uppercase tracking-widest text-muted mb-2">Content Body</label>
+                      <textarea value={formData.body} onChange={(e) => setFormData({ ...formData, body: e.target.value })} placeholder="Start writing your post here..." rows={12} className="w-full px-4 py-3 bg-surface border border-border rounded-xl text-foreground placeholder:text-muted/50 focus:outline-none focus:ring-2 focus:ring-primary/50 text-sm font-medium resize-none transition-all custom-scrollbar" required />
+                    </div>
+                    
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                      <div>
+                        <label className="block text-[10px] font-black uppercase tracking-widest text-muted mb-2">Cover Image URL (Optional)</label>
+                        <input type="text" value={formData.coverImageUrl} onChange={(e) => setFormData({ ...formData, coverImageUrl: e.target.value })} placeholder="https://example.com/image.jpg" className="w-full px-4 py-3 bg-surface border border-border rounded-xl text-foreground placeholder:text-muted/50 focus:outline-none focus:ring-2 focus:ring-primary/50 text-sm font-medium transition-all" />
+                      </div>
+                      
+                      <div>
+                        <label className="block text-[10px] font-black uppercase tracking-widest text-muted mb-2">Visibility Status</label>
+                        <select value={formData.status} onChange={(e) => setFormData({ ...formData, status: e.target.value })} className="w-full px-4 py-3 bg-surface border border-border rounded-xl text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 text-sm font-bold appearance-none transition-all cursor-pointer">
+                          <option value="draft">Draft (Hidden)</option>
+                          <option value="published">Published (Visible)</option>
+                        </select>
+                      </div>
+                    </div>
+                    
+                    <div className="pt-4 mt-4 border-t border-border flex items-center justify-end gap-3">
+                      <button type="button" onClick={() => setShowModal(false)} className="px-6 py-3 bg-background border border-border text-foreground text-xs font-black uppercase tracking-widest rounded-xl hover:bg-surface transition-all">
+                        Cancel
+                      </button>
+                      <button type="submit" disabled={submitting} className="px-8 py-3 bg-primary text-white text-xs font-black uppercase tracking-widest rounded-xl shadow-lg shadow-primary/20 hover:shadow-xl hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2 disabled:opacity-50 active:scale-[0.98]">
+                        {submitting ? <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <><FiCheck className="w-4 h-4" /> {editingPost ? 'Save Changes' : 'Publish Post'}</>}
+                      </button>
+                    </div>
+                  </form>
+                </div>
               </motion.div>
             </motion.div>
           )}
         </AnimatePresence>
       </div>
-    </ProtectedRoute>
   );
 }

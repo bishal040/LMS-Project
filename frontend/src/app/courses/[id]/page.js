@@ -19,7 +19,7 @@ import { toast } from 'react-toastify';
 export default function CourseDetailPage() {
   const { id } = useParams();
   const router = useRouter();
-  const { user, isAuthenticated, isStudent } = useAuth();
+  const { user, isAuthenticated, isStudent, isAdmin, isContentManager, isInstructor } = useAuth();
 
   const [course, setCourse] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -56,6 +56,11 @@ export default function CourseDetailPage() {
     if (!isAuthenticated) {
       toast.info('Please log in to enroll in courses');
       router.push('/login');
+      return;
+    }
+
+    if (isAdmin || isContentManager || isInstructor) {
+      toast.error('Only students can enroll in courses.');
       return;
     }
 
@@ -193,7 +198,7 @@ export default function CourseDetailPage() {
               >
                 Continue Learning <FiArrowRight />
               </button>
-            ) : (
+            ) : (!isAdmin && !isContentManager && !isInstructor) ? (
               <button
                 onClick={handleEnroll}
                 disabled={enrolling}
@@ -205,6 +210,10 @@ export default function CourseDetailPage() {
                   <>Enroll Now <FiArrowRight /></>
                 )}
               </button>
+            ) : (
+              <div className="w-full py-4 bg-surface-hover border border-border text-muted text-sm font-black uppercase tracking-widest rounded-2xl text-center">
+                Preview Mode (Staff)
+              </div>
             )}
 
             {/* Course Info */}

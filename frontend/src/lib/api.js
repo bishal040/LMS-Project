@@ -59,8 +59,9 @@ export const logoutUser = () => {
 /**
  * Course API
  */
-export const getCourses = async () => {
-  const response = await api.get('/courses?populate=*');
+export const getCourses = async (customFilters = '') => {
+  const query = customFilters ? `&${customFilters}` : '';
+  const response = await api.get(`/courses?populate=*${query}`);
   return response.data;
 };
 
@@ -99,6 +100,14 @@ export const getMyEnrollments = async () => {
 
 export const checkEnrollment = async (courseId) => {
   const response = await api.get(`/enrollments/check/${courseId}`);
+  return response.data;
+};
+
+/**
+ * Get enrolled students with progress for a course (instructor/content manager)
+ */
+export const getCourseStudents = async (courseId) => {
+  const response = await api.get(`/enrollments/course-students/${courseId}`);
   return response.data;
 };
 
