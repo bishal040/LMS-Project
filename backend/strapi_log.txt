@@ -1,0 +1,406 @@
+- Loading Strapi
+[2026-08-29 19:33:46.498] [33mwarn[39m: [email]: The "sendmail" email provider is still supported, but for most production setups that use a dedicated SMTP relay, consider switching to @strapi/provider-email-nodemailer (set `provider` to `"nodemailer"` in your email plugin config). This message is only shown in development.
+- Building build context
+✔ Building build context (7ms)
+- Creating admin
+✔ Creating admin (381ms)
+✔ Loading Strapi (1373ms)
+- Generating types
+✔ Generating types (101ms)
+
+ Project information
+
+╭────────────────────┬──────────────────────────────────────────────────╮
+│ Time               │ Sat Aug 29 2026 19:33:47 GMT+0600 (Bangladesh S… │
+│ Launched in        │ 1494 ms                                          │
+│ Environment        │ development                                      │
+│ Process PID        │ 93364                                            │
+│ Version            │ 5.52.2 (node v25.2.1)                            │
+│ Plan               │ Community                                        │
+│ Database           │ sqlite                                           │
+│ Database name      │ .tmp/data.db                                     │
+╰────────────────────┴──────────────────────────────────────────────────╯
+
+ Actions available
+
+One more thing...
+Create your first administrator 💻 by going to the administration panel at:
+
+┌─────────────────────────────┐
+│ http://localhost:1337/admin │
+└─────────────────────────────┘
+
+[2026-08-29 19:33:47.169] [32minfo[39m: Strapi started successfully
+[2026-08-29 19:33:47.468] [32mhttp[39m: GET /admin (31 ms) 200
+[2026-08-29 19:33:48.838] [32mhttp[39m: GET /admin/project-type (5 ms) 200
+[2026-08-29 19:33:49.101] [32mhttp[39m: GET /admin/init (10 ms) 200
+7:36:47 PM [vite] page reload .strapi/client/index.html
+7:36:47 PM [vite] page reload .strapi/client/app.js
+[2026-08-29 19:36:47.565] [32mhttp[39m: GET /admin/auth/register-admin (27 ms) 200
+[2026-08-29 19:36:48.002] [32mhttp[39m: GET /admin/project-type (1 ms) 200
+[2026-08-29 19:36:48.355] [32mhttp[39m: GET /admin/init (53 ms) 200
+7:37:07 PM [vite] page reload build/index.html
+7:37:07 PM [vite] page reload build/index.html
+7:37:07 PM [vite] page reload build/index.html
+[2026-08-29 19:37:07.857] [32mhttp[39m: GET /admin/auth/register-admin (99 ms) 200
+[2026-08-29 19:37:09.790] [32mhttp[39m: GET /admin/project-type (10 ms) 200
+[2026-08-29 19:37:10.048] [32mhttp[39m: GET /admin/init (9 ms) 200
+7:37:40 PM [vite] page reload build/index.html
+7:37:41 PM [vite] page reload .strapi/client/index.html
+7:37:41 PM [vite] page reload .strapi/client/app.js
+[2026-08-29 19:37:41.527] [32mhttp[39m: GET /admin/auth/register-admin (8 ms) 200
+[2026-08-29 19:37:41.925] [32mhttp[39m: GET /admin/project-type (8 ms) 200
+[2026-08-29 19:37:42.022] [32mhttp[39m: GET /admin/init (3 ms) 200
+[2026-08-29 19:37:52.835] [32mhttp[39m: GET /api/courses?populate=* (62 ms) 403
+[2026-08-29 19:37:52.853] [32mhttp[39m: GET /api/courses?populate=* (2 ms) 403
+[2026-08-29 19:39:49.480] [32mhttp[39m: POST /admin/register-admin (227 ms) 200
+[2026-08-29 19:39:49.531] [32mhttp[39m: GET /admin/users/me (14 ms) 200
+[2026-08-29 19:39:49.551] [32mhttp[39m: GET /admin/users/me/permissions (16 ms) 200
+[2026-08-29 19:39:49.567] [32mhttp[39m: GET /admin/telemetry-properties (15 ms) 200
+[2026-08-29 19:39:49.604] [32mhttp[39m: GET /admin/information (19 ms) 200
+[2026-08-29 19:39:49.683] [32mhttp[39m: GET /admin/guided-tour-meta (26 ms) 200
+[2026-08-29 19:39:49.708] [32mhttp[39m: GET /content-manager/homepage/count-documents (21 ms) 200
+[2026-08-29 19:39:49.715] [32mhttp[39m: GET /admin/homepage/layout (28 ms) 200
+[2026-08-29 19:39:49.721] [32mhttp[39m: GET /admin/homepage/key-statistics (13 ms) 200
+[2026-08-29 19:39:49.758] [32mhttp[39m: GET /admin/license-limit-information (72 ms) 200
+[2026-08-29 19:39:49.888] [32mhttp[39m: GET /content-manager/homepage/recent-documents?action=update (24 ms) 200
+[2026-08-29 19:39:49.896] [32mhttp[39m: GET /content-manager/homepage/recent-documents?action=publish (7 ms) 200
+[2026-08-29 19:39:57.290] [32mhttp[39m: GET /content-manager/init (41 ms) 200
+[2026-08-29 19:39:57.313] [32mhttp[39m: GET /content-manager/content-types-settings (21 ms) 200
+[2026-08-29 19:39:57.369] [32mhttp[39m: GET /content-manager/init (7 ms) 200
+[2026-08-29 19:39:57.438] [32mhttp[39m: GET /content-manager/content-types/api::blog-post.blog-post/configuration (19 ms) 200
+[2026-08-29 19:39:57.454] [32mhttp[39m: GET /content-manager/collection-types/api::blog-post.blog-post?page=1&pageSize=10&sort=title%3AASC (12 ms) 200
+[2026-08-29 19:40:06.127] [32mhttp[39m: GET /content-manager/content-types/api::course.course/configuration (27 ms) 200
+[2026-08-29 19:40:06.151] [32mhttp[39m: GET /content-manager/collection-types/api::course.course?page=1&pageSize=10&sort=title%3AASC (18 ms) 200
+[2026-08-29 19:40:06.853] [32mhttp[39m: GET /content-manager/content-types/api::enrollment.enrollment/configuration (11 ms) 200
+[2026-08-29 19:40:06.865] [32mhttp[39m: GET /content-manager/collection-types/api::enrollment.enrollment?page=1&pageSize=10&sort=documentId%3AASC (8 ms) 200
+[2026-08-29 19:40:07.332] [32mhttp[39m: GET /content-manager/content-types/api::lesson.lesson/configuration (21 ms) 200
+[2026-08-29 19:40:07.346] [32mhttp[39m: GET /content-manager/collection-types/api::lesson.lesson?page=1&pageSize=10&sort=title%3AASC (8 ms) 200
+[2026-08-29 19:40:08.129] [32mhttp[39m: GET /content-manager/content-types/api::progress.progress/configuration (12 ms) 200
+[2026-08-29 19:40:08.142] [32mhttp[39m: GET /content-manager/collection-types/api::progress.progress?page=1&pageSize=10&sort=documentId%3AASC (9 ms) 200
+[2026-08-29 19:40:08.647] [32mhttp[39m: GET /content-manager/content-types/api::quiz.quiz/configuration (12 ms) 200
+[2026-08-29 19:40:08.662] [32mhttp[39m: GET /content-manager/collection-types/api::quiz.quiz?page=1&pageSize=10&sort=title%3AASC (11 ms) 200
+[2026-08-29 19:40:09.190] [32mhttp[39m: GET /content-manager/content-types/api::quiz-attempt.quiz-attempt/configuration (11 ms) 200
+[2026-08-29 19:40:09.202] [32mhttp[39m: GET /content-manager/collection-types/api::quiz-attempt.quiz-attempt?page=1&pageSize=10&sort=documentId%3AASC (8 ms) 200
+[2026-08-29 19:40:09.740] [32mhttp[39m: GET /content-manager/content-types/plugin::users-permissions.user/configuration (21 ms) 200
+[2026-08-29 19:40:09.786] [32mhttp[39m: GET /content-manager/collection-types/plugin::users-permissions.user?page=1&pageSize=10&sort=username%3AASC (37 ms) 200
+[2026-08-29 19:40:11.222] [32mhttp[39m: GET /upload/settings (9 ms) 200
+[2026-08-29 19:40:11.229] [32mhttp[39m: GET /upload/configuration (5 ms) 200
+[2026-08-29 19:40:11.308] [32mhttp[39m: GET /upload/files?sort=createdAt:DESC&page=1&pageSize=10&filters[$and][0][folder][id][$null]=true (48 ms) 200
+[2026-08-29 19:40:11.409] [32mhttp[39m: GET /upload/folders?sort=createdAt:DESC&page=1&pageSize=10&pagination[pageSize]=-1&filters[$and][0][parent][id][$null]=true (74 ms) 200
+[2026-08-29 19:40:11.479] [32mhttp[39m: GET /upload/settings (37 ms) 200
+[2026-08-29 19:40:12.871] [32mhttp[39m: GET /content-type-builder/schema (6 ms) 200
+[2026-08-29 19:40:12.879] [32mhttp[39m: GET /content-type-builder/reserved-names (8 ms) 200
+[2026-08-29 19:40:12.886] [32mhttp[39m: GET /admin/ai-usage (22 ms) 404
+[2026-08-29 19:40:12.892] [32mhttp[39m: GET /admin/ai-token (13 ms) 404
+[2026-08-29 19:40:12.909] [32mhttp[39m: GET /admin/ai-token (7 ms) 404
+[2026-08-29 19:53:16.867] [32mhttp[39m: GET /admin/plugins/cloud (305 ms) 200
+[2026-08-29 19:53:18.356] [32mhttp[39m: GET /admin/project-type (72 ms) 200
+[2026-08-29 19:53:19.605] [32mhttp[39m: GET /admin/init (45 ms) 200
+[2026-08-29 19:53:19.647] [32mhttp[39m: GET /admin/users/me (39 ms) 200
+[2026-08-29 19:53:19.660] [32mhttp[39m: GET /admin/users/me/permissions (51 ms) 200
+[2026-08-29 19:53:19.693] [32mhttp[39m: GET /admin/information (11 ms) 200
+[2026-08-29 19:53:19.732] [32mhttp[39m: GET /admin/telemetry-properties (40 ms) 200
+[2026-08-29 19:53:19.788] [32mhttp[39m: GET /admin/guided-tour-meta (12 ms) 200
+[2026-08-29 19:53:19.794] [32mhttp[39m: GET /admin/license-limit-information (5 ms) 200
+[2026-08-29 20:13:57.571] [32mhttp[39m: GET /admin/init (83 ms) 200
+[2026-08-29 20:15:39.695] [32mhttp[39m: POST /admin/login (209 ms) 200
+[2026-08-29 20:15:39.745] [32mhttp[39m: GET /admin/users/me (39 ms) 200
+[2026-08-29 20:15:39.770] [32mhttp[39m: GET /admin/users/me/permissions (23 ms) 200
+[2026-08-29 20:15:39.785] [32mhttp[39m: GET /admin/telemetry-properties (14 ms) 200
+[2026-08-29 20:15:39.825] [32mhttp[39m: GET /admin/information (13 ms) 200
+[2026-08-29 20:15:39.891] [32mhttp[39m: GET /admin/guided-tour-meta (13 ms) 200
+[2026-08-29 20:15:39.907] [32mhttp[39m: GET /content-manager/homepage/count-documents (11 ms) 200
+[2026-08-29 20:15:39.916] [32mhttp[39m: GET /admin/homepage/layout (21 ms) 200
+[2026-08-29 20:15:39.924] [32mhttp[39m: GET /admin/homepage/key-statistics (7 ms) 200
+[2026-08-29 20:15:39.931] [32mhttp[39m: GET /admin/license-limit-information (39 ms) 200
+[2026-08-29 20:15:40.135] [32mhttp[39m: GET /content-manager/homepage/recent-documents?action=update (15 ms) 200
+[2026-08-29 20:15:40.145] [32mhttp[39m: GET /content-manager/homepage/recent-documents?action=publish (10 ms) 200
+[2026-08-29 20:15:41.472] [32mhttp[39m: GET /admin/ai-usage (14 ms) 404
+[2026-08-29 20:15:41.480] [32mhttp[39m: GET /content-type-builder/schema (7 ms) 200
+[2026-08-29 20:15:41.487] [32mhttp[39m: GET /content-type-builder/reserved-names (7 ms) 200
+[2026-08-29 20:15:41.493] [32mhttp[39m: GET /admin/ai-token (6 ms) 404
+[2026-08-29 20:15:41.514] [32mhttp[39m: GET /admin/ai-token (7 ms) 404
+[2026-08-29 20:20:19.360] [32mhttp[39m: GET /admin/auth/register-admin (11 ms) 200
+[2026-08-29 20:20:31.514] [32mhttp[39m: GET /admin/auth/register-admin (10 ms) 200
+[2026-08-29 20:20:31.968] [32mhttp[39m: GET /admin/project-type (2 ms) 200
+[2026-08-29 20:20:32.049] [32mhttp[39m: GET /admin/init (14 ms) 200
+[2026-08-29 20:20:32.064] [32mhttp[39m: GET /admin/users/me (14 ms) 200
+[2026-08-29 20:20:32.072] [32mhttp[39m: GET /admin/users/me/permissions (21 ms) 200
+[2026-08-29 20:20:32.089] [32mhttp[39m: GET /admin/telemetry-properties (7 ms) 200
+[2026-08-29 20:20:32.119] [32mhttp[39m: GET /admin/information (7 ms) 200
+[2026-08-29 20:20:32.166] [32mhttp[39m: GET /admin/guided-tour-meta (9 ms) 200
+[2026-08-29 20:20:32.180] [32mhttp[39m: GET /content-manager/homepage/count-documents (10 ms) 200
+[2026-08-29 20:20:32.185] [32mhttp[39m: GET /admin/homepage/layout (17 ms) 200
+[2026-08-29 20:20:32.191] [32mhttp[39m: GET /admin/homepage/key-statistics (11 ms) 200
+[2026-08-29 20:20:32.194] [32mhttp[39m: GET /admin/license-limit-information (27 ms) 200
+[2026-08-29 20:20:32.321] [32mhttp[39m: GET /content-manager/homepage/recent-documents?action=update (14 ms) 200
+[2026-08-29 20:20:32.328] [32mhttp[39m: GET /content-manager/homepage/recent-documents?action=publish (6 ms) 200
+[2026-08-29 20:20:34.532] [32mhttp[39m: GET /content-manager/init (24 ms) 200
+[2026-08-29 20:20:34.552] [32mhttp[39m: GET /content-manager/content-types-settings (19 ms) 200
+[2026-08-29 20:20:34.615] [32mhttp[39m: GET /content-manager/init (10 ms) 200
+[2026-08-29 20:20:34.651] [32mhttp[39m: GET /content-manager/content-types/api::blog-post.blog-post/configuration (8 ms) 200
+[2026-08-29 20:20:34.670] [32mhttp[39m: GET /content-manager/collection-types/api::blog-post.blog-post?page=1&pageSize=10&sort=title%3AASC (11 ms) 200
+[2026-08-29 20:20:36.871] [32mhttp[39m: GET /admin/ai-usage (6 ms) 404
+[2026-08-29 20:20:36.878] [32mhttp[39m: GET /content-type-builder/schema (6 ms) 200
+[2026-08-29 20:20:36.887] [32mhttp[39m: GET /content-type-builder/reserved-names (8 ms) 200
+[2026-08-29 20:20:36.894] [32mhttp[39m: GET /admin/ai-token (6 ms) 404
+[2026-08-29 20:20:36.909] [32mhttp[39m: GET /admin/ai-token (7 ms) 404
+[2026-08-29 20:20:38.652] [32mhttp[39m: GET /content-manager/init (15 ms) 200
+[2026-08-29 20:20:40.527] [32mhttp[39m: GET /content-manager/content-types/plugin::users-permissions.user/configuration (23 ms) 200
+[2026-08-29 20:20:40.553] [32mhttp[39m: GET /content-manager/collection-types/plugin::users-permissions.user?page=1&pageSize=10&sort=username%3AASC (17 ms) 200
+[2026-08-29 20:21:06.573] [32mhttp[39m: OPTIONS /api/auth/local/register (2 ms) 204
+[2026-08-29 20:21:06.722] [32mhttp[39m: POST /api/auth/local/register (145 ms) 200
+[2026-08-29 20:21:06.738] [32mhttp[39m: OPTIONS /api/users/me?populate=role (0 ms) 204
+[2026-08-29 20:21:06.746] [32mhttp[39m: GET /api/users/me?populate=role (7 ms) 200
+[2026-08-29 20:21:08.009] [32mhttp[39m: OPTIONS /api/enrollments/me (2 ms) 204
+[2026-08-29 20:21:08.017] [32mhttp[39m: GET /api/enrollments/me (6 ms) 403
+[2026-08-29 20:21:08.020] [32mhttp[39m: OPTIONS /api/enrollments/me (1 ms) 204
+[2026-08-29 20:21:08.028] [32mhttp[39m: GET /api/enrollments/me (7 ms) 403
+[2026-08-29 20:21:27.306] [32mhttp[39m: OPTIONS /api/courses?populate=* (1 ms) 204
+[2026-08-29 20:21:27.309] [32mhttp[39m: OPTIONS /api/courses?populate=* (1 ms) 204
+[2026-08-29 20:21:27.321] [32mhttp[39m: GET /api/courses?populate=* (12 ms) 403
+[2026-08-29 20:21:27.337] [32mhttp[39m: GET /api/courses?populate=* (6 ms) 403
+[2026-08-29 20:21:46.024] [32mhttp[39m: OPTIONS /api/blog-posts?populate=author&sort=publishedAt:desc (4 ms) 204
+[2026-08-29 20:21:46.046] [32mhttp[39m: GET /api/blog-posts?populate=author&sort=publishedAt:desc (17 ms) 403
+[2026-08-29 20:21:46.050] [32mhttp[39m: OPTIONS /api/blog-posts?populate=author&sort=publishedAt:desc (0 ms) 204
+[2026-08-29 20:21:46.054] [32mhttp[39m: GET /api/blog-posts?populate=author&sort=publishedAt:desc (3 ms) 403
+[2026-08-29 20:21:52.230] [32mhttp[39m: GET /api/courses?populate=* (13 ms) 403
+[2026-08-29 20:21:52.237] [32mhttp[39m: GET /api/courses?populate=* (3 ms) 403
+[2026-08-29 20:23:18.034] [32mhttp[39m: GET /api/courses?populate=* (102 ms) 403
+[2026-08-29 20:23:18.047] [32mhttp[39m: GET /api/users/me?populate=role (9 ms) 200
+[2026-08-29 20:24:11.348] [32mhttp[39m: GET /api/courses?populate=* (37 ms) 403
+[2026-08-29 20:24:11.367] [32mhttp[39m: GET /api/users/me?populate=role (6 ms) 200
+[2026-08-29 20:45:29.984] [32mhttp[39m: POST /admin/access-token (434 ms) 200
+[2026-08-29 20:50:25.257] [32mhttp[39m: GET /admin/content-manager/collection-types/plugin::users-permissions.user (326 ms) 200
+[2026-08-29 20:50:30.707] [32mhttp[39m: GET /admin/project-type (52 ms) 200
+[2026-08-29 20:50:33.221] [32mhttp[39m: GET /admin/init (41 ms) 200
+[2026-08-29 20:50:33.282] [32mhttp[39m: GET /admin/users/me (60 ms) 200
+[2026-08-29 20:50:33.297] [32mhttp[39m: GET /admin/users/me/permissions (73 ms) 200
+[2026-08-29 20:50:33.354] [32mhttp[39m: GET /admin/telemetry-properties (19 ms) 200
+[2026-08-29 20:50:33.354] [32mhttp[39m: GET /admin/information (55 ms) 200
+[2026-08-29 20:50:33.542] [32mhttp[39m: GET /admin/guided-tour-meta (20 ms) 200
+[2026-08-29 20:50:33.562] [32mhttp[39m: GET /content-manager/init (16 ms) 200
+[2026-08-29 20:50:33.580] [32mhttp[39m: GET /content-manager/content-types-settings (17 ms) 200
+[2026-08-29 20:50:33.630] [32mhttp[39m: GET /admin/license-limit-information (86 ms) 200
+[2026-08-29 20:50:33.719] [32mhttp[39m: GET /content-manager/init (41 ms) 200
+[2026-08-29 20:50:34.084] [32mhttp[39m: GET /content-manager/content-types/plugin::users-permissions.user/configuration (18 ms) 200
+[2026-08-29 20:50:34.158] [32mhttp[39m: GET /content-manager/collection-types/plugin::users-permissions.user?page=1&pageSize=10&sort=username%3AASC (32 ms) 200
+[2026-08-29 20:50:35.040] [32mhttp[39m: GET /admin/ai-feature-config (72 ms) 404
+[2026-08-29 20:50:35.051] [32mhttp[39m: GET /i18n/locales (9 ms) 200
+[2026-08-29 20:50:35.122] [32mhttp[39m: GET /admin/content-manager/collection-types/plugin::users-permissions.user (14 ms) 200
+[2026-08-29 20:50:35.667] [32mhttp[39m: GET /admin/project-type (8 ms) 200
+[2026-08-29 20:50:36.272] [32mhttp[39m: GET /admin/init (8 ms) 200
+[2026-08-29 20:50:36.288] [32mhttp[39m: GET /admin/users/me (15 ms) 200
+[2026-08-29 20:50:36.296] [32mhttp[39m: GET /admin/users/me/permissions (21 ms) 200
+[2026-08-29 20:50:36.313] [32mhttp[39m: GET /admin/telemetry-properties (7 ms) 200
+[2026-08-29 20:50:36.313] [32mhttp[39m: GET /admin/information (12 ms) 200
+[2026-08-29 20:50:36.442] [32mhttp[39m: GET /admin/guided-tour-meta (26 ms) 200
+[2026-08-29 20:50:36.455] [32mhttp[39m: GET /content-manager/init (10 ms) 200
+[2026-08-29 20:50:36.481] [32mhttp[39m: GET /content-manager/content-types-settings (24 ms) 200
+[2026-08-29 20:50:36.484] [32mhttp[39m: GET /admin/license-limit-information (41 ms) 200
+[2026-08-29 20:50:36.521] [32mhttp[39m: GET /content-manager/init (5 ms) 200
+[2026-08-29 20:50:36.650] [32mhttp[39m: GET /content-manager/content-types/plugin::users-permissions.user/configuration (6 ms) 200
+[2026-08-29 20:50:36.681] [32mhttp[39m: GET /content-manager/collection-types/plugin::users-permissions.user?page=1&pageSize=10&sort=username%3AASC (12 ms) 200
+[2026-08-29 20:50:36.884] [32mhttp[39m: GET /admin/ai-feature-config (7 ms) 404
+[2026-08-29 20:50:36.891] [32mhttp[39m: GET /i18n/locales (6 ms) 200
+[2026-08-29 20:53:29.236] [32mhttp[39m: GET /admin/homepage/layout (131 ms) 200
+[2026-08-29 20:53:29.286] [32mhttp[39m: GET /content-manager/homepage/count-documents (42 ms) 200
+[2026-08-29 20:53:29.313] [32mhttp[39m: GET /admin/homepage/key-statistics (25 ms) 200
+[2026-08-29 20:53:29.426] [32mhttp[39m: GET /content-manager/homepage/recent-documents?action=update (57 ms) 200
+[2026-08-29 20:53:29.443] [32mhttp[39m: GET /content-manager/homepage/recent-documents?action=publish (16 ms) 200
+[2026-08-29 20:53:42.841] [32mhttp[39m: GET /content-type-builder/schema (30 ms) 200
+[2026-08-29 20:53:42.848] [32mhttp[39m: GET /admin/ai-usage (39 ms) 404
+[2026-08-29 20:53:42.858] [32mhttp[39m: GET /content-type-builder/reserved-names (9 ms) 200
+[2026-08-29 20:53:42.910] [32mhttp[39m: GET /admin/ai-token (52 ms) 404
+[2026-08-29 20:53:43.016] [32mhttp[39m: GET /admin/ai-token (32 ms) 404
+[2026-08-29 20:53:48.135] [32mhttp[39m: GET /admin/plugins/content-type-builder/content-types/api::blog-post.blog-post (12 ms) 200
+[2026-08-29 20:53:48.659] [32mhttp[39m: GET /admin/project-type (2 ms) 200
+[2026-08-29 20:53:48.920] [32mhttp[39m: GET /admin/init (9 ms) 200
+[2026-08-29 20:53:48.953] [32mhttp[39m: GET /admin/users/me (29 ms) 200
+[2026-08-29 20:53:48.968] [32mhttp[39m: GET /admin/users/me/permissions (39 ms) 200
+[2026-08-29 20:53:48.988] [32mhttp[39m: GET /admin/telemetry-properties (14 ms) 200
+[2026-08-29 20:53:48.990] [32mhttp[39m: GET /admin/information (21 ms) 200
+[2026-08-29 20:53:49.119] [32mhttp[39m: GET /admin/guided-tour-meta (43 ms) 200
+[2026-08-29 20:53:49.144] [32mhttp[39m: GET /content-type-builder/schema (18 ms) 200
+[2026-08-29 20:53:49.167] [32mhttp[39m: GET /content-type-builder/reserved-names (14 ms) 200
+[2026-08-29 20:53:49.199] [32mhttp[39m: GET /admin/ai-usage (78 ms) 404
+[2026-08-29 20:53:49.208] [32mhttp[39m: GET /admin/ai-token (40 ms) 404
+[2026-08-29 20:53:49.249] [32mhttp[39m: GET /admin/ai-token (35 ms) 404
+[2026-08-29 20:53:49.254] [32mhttp[39m: GET /admin/license-limit-information (172 ms) 200
+[2026-08-29 20:54:14.131] [32mhttp[39m: GET /users-permissions/roles (42 ms) 200
+[2026-08-29 20:54:39.748] [32mhttp[39m: GET /users-permissions/permissions (23 ms) 200
+[2026-08-29 20:54:39.763] [32mhttp[39m: GET /users-permissions/routes (12 ms) 200
+[2026-08-29 20:54:39.774] [32mhttp[39m: GET /users-permissions/roles/2 (9 ms) 200
+[2026-08-29 20:55:43.233] [32mhttp[39m: PUT /users-permissions/roles/2 (47 ms) 200
+[2026-08-29 20:55:43.273] [32mhttp[39m: GET /users-permissions/roles/2 (34 ms) 200
+[2026-08-29 20:55:50.014] [32mhttp[39m: GET /api/courses?populate=* (17 ms) 401
+[2026-08-29 20:55:50.075] [32mhttp[39m: GET /api/users/me?populate=role (8 ms) 401
+[2026-08-29 20:56:37.199] [32mhttp[39m: OPTIONS /api/auth/local (2 ms) 204
+[2026-08-29 20:56:37.351] [32mhttp[39m: POST /api/auth/local (148 ms) 200
+[2026-08-29 20:56:37.360] [32mhttp[39m: GET /api/users/me?populate=role (6 ms) 200
+[2026-08-29 20:56:37.795] [32mhttp[39m: GET /api/enrollments/me (20 ms) 403
+[2026-08-29 20:56:51.940] [32mhttp[39m: POST /api/auth/local (129 ms) 200
+[2026-08-29 20:56:51.946] [32mhttp[39m: GET /api/users/me?populate=role (3 ms) 200
+[2026-08-29 20:56:52.029] [32mhttp[39m: GET /api/enrollments/me (9 ms) 403
+[2026-08-29 20:59:18.239] [32mhttp[39m: GET /admin/roles/ (79 ms) 200
+[2026-08-29 20:59:49.453] [32mhttp[39m: GET /users-permissions/roles (38 ms) 200
+[2026-08-29 20:59:56.622] [32mhttp[39m: GET /users-permissions/permissions (17 ms) 200
+[2026-08-29 20:59:56.634] [32mhttp[39m: GET /users-permissions/routes (10 ms) 200
+[2026-08-29 20:59:56.645] [32mhttp[39m: GET /users-permissions/roles/1 (9 ms) 200
+[2026-08-29 21:00:31.898] [32mhttp[39m: PUT /users-permissions/roles/1 (52 ms) 200
+[2026-08-29 21:00:31.935] [32mhttp[39m: GET /users-permissions/roles/1 (31 ms) 200
+[2026-08-29 21:00:55.617] [32mhttp[39m: PUT /users-permissions/roles/1 (49 ms) 200
+[2026-08-29 21:00:55.639] [32mhttp[39m: GET /users-permissions/roles/1 (17 ms) 200
+[2026-08-29 21:01:01.713] [32mhttp[39m: GET /api/enrollments/me (57 ms) 200
+[2026-08-29 21:01:01.740] [32mhttp[39m: GET /api/users/me?populate=role (6 ms) 200
+[2026-08-29 21:01:11.178] [32mhttp[39m: POST /api/auth/local (146 ms) 200
+[2026-08-29 21:01:11.184] [32mhttp[39m: GET /api/users/me?populate=role (3 ms) 200
+[2026-08-29 21:01:11.342] [32mhttp[39m: GET /api/enrollments/me (16 ms) 200
+[2026-08-29 21:01:17.581] [31merror[39m: Cannot read properties of undefined (reading 'find')
+TypeError: Cannot read properties of undefined (reading 'find')
+    at Object.find (/Users/istiakahmmedbishal/Desktop/LMS Project/backend/node_modules/@strapi/core/dist/core-api/controller/collection-type.js:18:70)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Object.find (/Users/istiakahmmedbishal/Desktop/LMS Project/backend/src/api/course/controllers/course.js:44:22)
+    at async returnBodyMiddleware (/Users/istiakahmmedbishal/Desktop/LMS Project/backend/node_modules/@strapi/core/dist/services/server/compose-endpoint.js:50:20)
+    at async policiesMiddleware (/Users/istiakahmmedbishal/Desktop/LMS Project/backend/node_modules/@strapi/core/dist/services/server/policy.js:21:9)
+    at async /Users/istiakahmmedbishal/Desktop/LMS Project/backend/node_modules/@strapi/core/dist/services/server/compose-endpoint.js:31:20
+    at async serve (/Users/istiakahmmedbishal/Desktop/LMS Project/backend/node_modules/koa-static/index.js:59:5)
+    at async returnBodyMiddleware (/Users/istiakahmmedbishal/Desktop/LMS Project/backend/node_modules/@strapi/core/dist/services/server/compose-endpoint.js:50:20)
+    at async policiesMiddleware (/Users/istiakahmmedbishal/Desktop/LMS Project/backend/node_modules/@strapi/core/dist/services/server/policy.js:21:9)
+    at async /Users/istiakahmmedbishal/Desktop/LMS Project/backend/node_modules/@strapi/core/dist/services/server/compose-endpoint.js:31:20
+[2026-08-29 21:01:17.583] [32mhttp[39m: GET /api/courses?populate=%2A&filters%5Bstatus%5D%5B%24eq%5D=published (14 ms) 500
+[2026-08-29 21:01:42.944] [31merror[39m: Cannot read properties of undefined (reading 'find')
+TypeError: Cannot read properties of undefined (reading 'find')
+    at Object.find (/Users/istiakahmmedbishal/Desktop/LMS Project/backend/node_modules/@strapi/core/dist/core-api/controller/collection-type.js:18:70)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Object.find (/Users/istiakahmmedbishal/Desktop/LMS Project/backend/src/api/course/controllers/course.js:44:22)
+    at async returnBodyMiddleware (/Users/istiakahmmedbishal/Desktop/LMS Project/backend/node_modules/@strapi/core/dist/services/server/compose-endpoint.js:50:20)
+    at async policiesMiddleware (/Users/istiakahmmedbishal/Desktop/LMS Project/backend/node_modules/@strapi/core/dist/services/server/policy.js:21:9)
+    at async /Users/istiakahmmedbishal/Desktop/LMS Project/backend/node_modules/@strapi/core/dist/services/server/compose-endpoint.js:31:20
+    at async serve (/Users/istiakahmmedbishal/Desktop/LMS Project/backend/node_modules/koa-static/index.js:59:5)
+    at async returnBodyMiddleware (/Users/istiakahmmedbishal/Desktop/LMS Project/backend/node_modules/@strapi/core/dist/services/server/compose-endpoint.js:50:20)
+    at async policiesMiddleware (/Users/istiakahmmedbishal/Desktop/LMS Project/backend/node_modules/@strapi/core/dist/services/server/policy.js:21:9)
+    at async /Users/istiakahmmedbishal/Desktop/LMS Project/backend/node_modules/@strapi/core/dist/services/server/compose-endpoint.js:31:20
+[2026-08-29 21:01:42.946] [32mhttp[39m: GET /api/courses?populate=%2A&filters%5Bstatus%5D%5B%24eq%5D=published (112 ms) 500
+[2026-08-29 21:01:42.982] [32mhttp[39m: GET /api/users/me?populate=role (23 ms) 200
+[2026-08-29 21:01:54.166] [31merror[39m: Cannot read properties of undefined (reading 'find')
+TypeError: Cannot read properties of undefined (reading 'find')
+    at Object.find (/Users/istiakahmmedbishal/Desktop/LMS Project/backend/node_modules/@strapi/core/dist/core-api/controller/collection-type.js:18:70)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Object.find (/Users/istiakahmmedbishal/Desktop/LMS Project/backend/src/api/blog-post/controllers/blog-post.js:67:22)
+    at async returnBodyMiddleware (/Users/istiakahmmedbishal/Desktop/LMS Project/backend/node_modules/@strapi/core/dist/services/server/compose-endpoint.js:50:20)
+    at async policiesMiddleware (/Users/istiakahmmedbishal/Desktop/LMS Project/backend/node_modules/@strapi/core/dist/services/server/policy.js:21:9)
+    at async /Users/istiakahmmedbishal/Desktop/LMS Project/backend/node_modules/@strapi/core/dist/services/server/compose-endpoint.js:31:20
+    at async serve (/Users/istiakahmmedbishal/Desktop/LMS Project/backend/node_modules/koa-static/index.js:59:5)
+    at async returnBodyMiddleware (/Users/istiakahmmedbishal/Desktop/LMS Project/backend/node_modules/@strapi/core/dist/services/server/compose-endpoint.js:50:20)
+    at async policiesMiddleware (/Users/istiakahmmedbishal/Desktop/LMS Project/backend/node_modules/@strapi/core/dist/services/server/policy.js:21:9)
+    at async /Users/istiakahmmedbishal/Desktop/LMS Project/backend/node_modules/@strapi/core/dist/services/server/compose-endpoint.js:31:20
+[2026-08-29 21:01:54.168] [32mhttp[39m: GET /api/blog-posts?populate=author&sort=publishedAt%3Adesc&filters%5Bstatus%5D%5B%24eq%5D=published (37 ms) 500
+[2026-08-29 21:01:55.581] [32mhttp[39m: GET /api/enrollments/me (14 ms) 200
+[2026-08-29 21:01:57.891] [31merror[39m: Cannot read properties of undefined (reading 'find')
+TypeError: Cannot read properties of undefined (reading 'find')
+    at Object.find (/Users/istiakahmmedbishal/Desktop/LMS Project/backend/node_modules/@strapi/core/dist/core-api/controller/collection-type.js:18:70)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Object.find (/Users/istiakahmmedbishal/Desktop/LMS Project/backend/src/api/blog-post/controllers/blog-post.js:67:22)
+    at async returnBodyMiddleware (/Users/istiakahmmedbishal/Desktop/LMS Project/backend/node_modules/@strapi/core/dist/services/server/compose-endpoint.js:50:20)
+    at async policiesMiddleware (/Users/istiakahmmedbishal/Desktop/LMS Project/backend/node_modules/@strapi/core/dist/services/server/policy.js:21:9)
+    at async /Users/istiakahmmedbishal/Desktop/LMS Project/backend/node_modules/@strapi/core/dist/services/server/compose-endpoint.js:31:20
+    at async serve (/Users/istiakahmmedbishal/Desktop/LMS Project/backend/node_modules/koa-static/index.js:59:5)
+    at async returnBodyMiddleware (/Users/istiakahmmedbishal/Desktop/LMS Project/backend/node_modules/@strapi/core/dist/services/server/compose-endpoint.js:50:20)
+    at async policiesMiddleware (/Users/istiakahmmedbishal/Desktop/LMS Project/backend/node_modules/@strapi/core/dist/services/server/policy.js:21:9)
+    at async /Users/istiakahmmedbishal/Desktop/LMS Project/backend/node_modules/@strapi/core/dist/services/server/compose-endpoint.js:31:20
+[2026-08-29 21:01:57.892] [32mhttp[39m: GET /api/blog-posts?populate=author&sort=publishedAt%3Adesc&filters%5Bstatus%5D%5B%24eq%5D=published (18 ms) 500
+[2026-08-29 21:02:22.291] [32minfo[39m: File changed: /Users/istiakahmmedbishal/Desktop/LMS Project/backend/src/index.js
+[2026-08-29 21:02:22.363] [32minfo[39m: Shutting down Strapi
+[2026-08-29 21:02:22.382] [32minfo[39m: Strapi has been shut down
+- Loading Strapi
+[2026-08-29 21:02:25.838] [33mwarn[39m: [email]: The "sendmail" email provider is still supported, but for most production setups that use a dedicated SMTP relay, consider switching to @strapi/provider-email-nodemailer (set `provider` to `"nodemailer"` in your email plugin config). This message is only shown in development.
+✅ LMS API Permissions Auto-Configured Successfully
+- Building build context
+✔ Building build context (10ms)
+- Creating admin
+✔ Creating admin (285ms)
+✔ Loading Strapi (1182ms)
+- Generating types
+✔ Generating types (109ms)
+
+ Project information
+
+╭────────────────────┬──────────────────────────────────────────────────╮
+│ Time               │ Sat Aug 29 2026 21:02:26 GMT+0600 (Bangladesh S… │
+│ Launched in        │ 1346 ms                                          │
+│ Environment        │ development                                      │
+│ Process PID        │ 94852                                            │
+│ Version            │ 5.52.2 (node v25.2.1)                            │
+│ Plan               │ Community                                        │
+│ Database           │ sqlite                                           │
+│ Database name      │ .tmp/data.db                                     │
+╰────────────────────┴──────────────────────────────────────────────────╯
+
+ Actions available
+
+Welcome back!
+To access the server ⚡️, go to:
+http://localhost:1337
+
+[2026-08-29 21:02:26.488] [32minfo[39m: Strapi started successfully
+[2026-08-29 21:03:45.082] [31merror[39m: Cannot read properties of undefined (reading 'find')
+TypeError: Cannot read properties of undefined (reading 'find')
+    at Object.find (/Users/istiakahmmedbishal/Desktop/LMS Project/backend/node_modules/@strapi/core/dist/core-api/controller/collection-type.js:18:70)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Object.find (/Users/istiakahmmedbishal/Desktop/LMS Project/backend/src/api/blog-post/controllers/blog-post.js:67:22)
+    at async returnBodyMiddleware (/Users/istiakahmmedbishal/Desktop/LMS Project/backend/node_modules/@strapi/core/dist/services/server/compose-endpoint.js:50:20)
+    at async policiesMiddleware (/Users/istiakahmmedbishal/Desktop/LMS Project/backend/node_modules/@strapi/core/dist/services/server/policy.js:21:9)
+    at async /Users/istiakahmmedbishal/Desktop/LMS Project/backend/node_modules/@strapi/core/dist/services/server/compose-endpoint.js:31:20
+    at async serve (/Users/istiakahmmedbishal/Desktop/LMS Project/backend/node_modules/koa-static/index.js:59:5)
+    at async returnBodyMiddleware (/Users/istiakahmmedbishal/Desktop/LMS Project/backend/node_modules/@strapi/core/dist/services/server/compose-endpoint.js:50:20)
+    at async policiesMiddleware (/Users/istiakahmmedbishal/Desktop/LMS Project/backend/node_modules/@strapi/core/dist/services/server/policy.js:21:9)
+    at async /Users/istiakahmmedbishal/Desktop/LMS Project/backend/node_modules/@strapi/core/dist/services/server/compose-endpoint.js:31:20
+[2026-08-29 21:03:45.084] [32mhttp[39m: GET /api/blog-posts?populate=author&sort=publishedAt%3Adesc&filters%5Bstatus%5D%5B%24eq%5D=published (40 ms) 500
+[2026-08-29 21:03:45.098] [32mhttp[39m: GET /api/users/me?populate=role (8 ms) 200
+9:03:50 PM [vite] page reload .strapi/client/index.html
+[2026-08-29 21:05:07.907] [31merror[39m: Cannot read properties of undefined (reading 'find')
+TypeError: Cannot read properties of undefined (reading 'find')
+    at Object.find (/Users/istiakahmmedbishal/Desktop/LMS Project/backend/node_modules/@strapi/core/dist/core-api/controller/collection-type.js:18:70)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Object.find (/Users/istiakahmmedbishal/Desktop/LMS Project/backend/src/api/blog-post/controllers/blog-post.js:67:22)
+    at async returnBodyMiddleware (/Users/istiakahmmedbishal/Desktop/LMS Project/backend/node_modules/@strapi/core/dist/services/server/compose-endpoint.js:50:20)
+    at async policiesMiddleware (/Users/istiakahmmedbishal/Desktop/LMS Project/backend/node_modules/@strapi/core/dist/services/server/policy.js:21:9)
+    at async /Users/istiakahmmedbishal/Desktop/LMS Project/backend/node_modules/@strapi/core/dist/services/server/compose-endpoint.js:31:20
+    at async serve (/Users/istiakahmmedbishal/Desktop/LMS Project/backend/node_modules/koa-static/index.js:59:5)
+    at async returnBodyMiddleware (/Users/istiakahmmedbishal/Desktop/LMS Project/backend/node_modules/@strapi/core/dist/services/server/compose-endpoint.js:50:20)
+    at async policiesMiddleware (/Users/istiakahmmedbishal/Desktop/LMS Project/backend/node_modules/@strapi/core/dist/services/server/policy.js:21:9)
+    at async /Users/istiakahmmedbishal/Desktop/LMS Project/backend/node_modules/@strapi/core/dist/services/server/compose-endpoint.js:31:20
+[2026-08-29 21:05:07.911] [32mhttp[39m: GET /api/blog-posts?populate=author&sort=publishedAt%3Adesc&filters%5Bstatus%5D%5B%24eq%5D=published (90 ms) 500
+[2026-08-29 21:05:07.929] [32mhttp[39m: GET /api/users/me?populate=role (9 ms) 200
+[2026-08-29 21:05:09.155] [31merror[39m: Cannot read properties of undefined (reading 'find')
+TypeError: Cannot read properties of undefined (reading 'find')
+    at Object.find (/Users/istiakahmmedbishal/Desktop/LMS Project/backend/node_modules/@strapi/core/dist/core-api/controller/collection-type.js:18:70)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Object.find (/Users/istiakahmmedbishal/Desktop/LMS Project/backend/src/api/course/controllers/course.js:44:22)
+    at async returnBodyMiddleware (/Users/istiakahmmedbishal/Desktop/LMS Project/backend/node_modules/@strapi/core/dist/services/server/compose-endpoint.js:50:20)
+    at async policiesMiddleware (/Users/istiakahmmedbishal/Desktop/LMS Project/backend/node_modules/@strapi/core/dist/services/server/policy.js:21:9)
+    at async /Users/istiakahmmedbishal/Desktop/LMS Project/backend/node_modules/@strapi/core/dist/services/server/compose-endpoint.js:31:20
+    at async serve (/Users/istiakahmmedbishal/Desktop/LMS Project/backend/node_modules/koa-static/index.js:59:5)
+    at async returnBodyMiddleware (/Users/istiakahmmedbishal/Desktop/LMS Project/backend/node_modules/@strapi/core/dist/services/server/compose-endpoint.js:50:20)
+    at async policiesMiddleware (/Users/istiakahmmedbishal/Desktop/LMS Project/backend/node_modules/@strapi/core/dist/services/server/policy.js:21:9)
+    at async /Users/istiakahmmedbishal/Desktop/LMS Project/backend/node_modules/@strapi/core/dist/services/server/compose-endpoint.js:31:20
+[2026-08-29 21:05:09.156] [32mhttp[39m: GET /api/courses?populate=%2A&filters%5Bstatus%5D%5B%24eq%5D=published (13 ms) 500
+[2026-08-29 21:15:19.389] [32mhttp[39m: POST /admin/access-token (79 ms) 200
+[2026-08-29 21:18:55.735] [32mhttp[39m: GET /api/courses?populate=* (50 ms) 401
+[2026-08-29 21:18:55.772] [32mhttp[39m: GET /api/users/me?populate=role (3 ms) 401
+[2026-08-29 21:23:34.156] [31merror[39m: Cannot read properties of undefined (reading 'find')
+TypeError: Cannot read properties of undefined (reading 'find')
+    at Object.find (/Users/istiakahmmedbishal/Desktop/LMS Project/backend/node_modules/@strapi/core/dist/core-api/controller/collection-type.js:18:70)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Object.find (/Users/istiakahmmedbishal/Desktop/LMS Project/backend/src/api/course/controllers/course.js:44:22)
+    at async returnBodyMiddleware (/Users/istiakahmmedbishal/Desktop/LMS Project/backend/node_modules/@strapi/core/dist/services/server/compose-endpoint.js:50:20)
+    at async policiesMiddleware (/Users/istiakahmmedbishal/Desktop/LMS Project/backend/node_modules/@strapi/core/dist/services/server/policy.js:21:9)
+    at async /Users/istiakahmmedbishal/Desktop/LMS Project/backend/node_modules/@strapi/core/dist/services/server/compose-endpoint.js:31:20
+    at async serve (/Users/istiakahmmedbishal/Desktop/LMS Project/backend/node_modules/koa-static/index.js:59:5)
+    at async returnBodyMiddleware (/Users/istiakahmmedbishal/Desktop/LMS Project/backend/node_modules/@strapi/core/dist/services/server/compose-endpoint.js:50:20)
+    at async policiesMiddleware (/Users/istiakahmmedbishal/Desktop/LMS Project/backend/node_modules/@strapi/core/dist/services/server/policy.js:21:9)
+    at async /Users/istiakahmmedbishal/Desktop/LMS Project/backend/node_modules/@strapi/core/dist/services/server/compose-endpoint.js:31:20
+[2026-08-29 21:23:34.164] [32mhttp[39m: GET /api/courses?populate=%2A&filters%5Bstatus%5D%5B%24eq%5D=published (132 ms) 500
+[2026-08-29 21:45:20.871] [32mhttp[39m: GET /admin/init (260 ms) 200
