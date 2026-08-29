@@ -34,6 +34,9 @@ export default function InstructorDashboard() {
   const [quizData, setQuizData] = useState({ title: '', questions: [{ question: '', options: ['', '', '', ''], correctAnswer: 0 }] });
   const [submitting, setSubmitting] = useState(false);
 
+  const [editingLessonId, setEditingLessonId] = useState(null);
+  const [editingQuizId, setEditingQuizId] = useState(null);
+
   useEffect(() => {
     fetchCourses();
   }, []);
@@ -101,16 +104,38 @@ export default function InstructorDashboard() {
     }
     setSubmitting(true);
     try {
-      await createLesson({ ...lessonData, course: showLessonModal });
-      toast.success('Lesson added!');
+      if (editingLessonId) {
+        await updateLesson(editingLessonId, lessonData);
+        toast.success('Lesson updated!');
+      } else {
+        await createLesson({ ...lessonData, course: showLessonModal });
+        toast.success('Lesson added!');
+      }
       setShowLessonModal(null);
+      setEditingLessonId(null);
       setLessonData({ title: '', content: '', videoUrl: '', order: 0 });
       fetchCourses();
     } catch (err) {
-      toast.error(err.message || 'Failed to add lesson');
+      toast.error(err.message || 'Failed to save lesson');
     } finally {
       setSubmitting(false);
     }
+  };
+
+  const handleEditLessonSetup = (lesson) => {
+    const attrs = lesson.attributes || lesson;
+    setEditingLessonId(lesson.documentId || lesson.id);
+    setLessonData({
+      title: attrs.title || '',
+      content: attrs.content || '',
+      videoUrl: attrs.videoUrl || '',
+      order: attrs.order || 0,
+    });
+  };
+
+  const handleClearLesson = () => {
+    setEditingLessonId(null);
+    setLessonData({ title: '', content: '', videoUrl: '', order: 0 });
   };
 
   const handleAddQuiz = async (e) => {
@@ -121,16 +146,36 @@ export default function InstructorDashboard() {
     }
     setSubmitting(true);
     try {
-      await createQuiz({ ...quizData, course: showQuizModal });
-      toast.success('Quiz added!');
+      if (editingQuizId) {
+        await updateQuiz(editingQuizId, quizData);
+        toast.success('Quiz updated!');
+      } else {
+        await createQuiz({ ...quizData, course: showQuizModal });
+        toast.success('Quiz added!');
+      }
       setShowQuizModal(null);
+      setEditingQuizId(null);
       setQuizData({ title: '', questions: [{ question: '', options: ['', '', '', ''], correctAnswer: 0 }] });
       fetchCourses();
     } catch (err) {
-      toast.error(err.message || 'Failed to add quiz');
+      toast.error(err.message || 'Failed to save quiz');
     } finally {
       setSubmitting(false);
     }
+  };
+
+  const handleEditQuizSetup = (quiz) => {
+    const attrs = quiz.attributes || quiz;
+    setEditingQuizId(quiz.documentId || quiz.id);
+    setQuizData({
+      title: attrs.title || '',
+      questions: attrs.questions || [{ question: '', options: ['', '', '', ''], correctAnswer: 0 }]
+    });
+  };
+
+  const handleClearQuiz = () => {
+    setEditingQuizId(null);
+    setQuizData({ title: '', questions: [{ question: '', options: ['', '', '', ''], correctAnswer: 0 }] });
   };
 
   const addQuestion = () => {
@@ -313,9 +358,9 @@ export default function InstructorDashboard() {
                 animate={{ scale: 1, y: 0 }}
                 exit={{ scale: 0.9, y: 20 }}
                 onClick={(e) => e.stopPropagation()}
-                className="bg-surface border border-border rounded-[2rem] p-8 w-full max-w-lg max-h-[90vh] overflow-y-auto shadow-2xl"
+                className="bg-surface border border-border rounded-[2rem] p-5 sm:p-8 w-full max-w-lg max-h-[90vh] overflow-y-auto shadow-2xl"
               >
-                <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center justify-between mb-4 sm:mb-6">
                   <h2 className="text-xl font-black tracking-tight">Create New Course</h2>
                   <button onClick={() => setShowCreateModal(false)} className="p-2 hover:bg-background rounded-xl transition-colors"><FiX className="w-5 h-5" /></button>
                 </div>
@@ -349,32 +394,86 @@ export default function InstructorDashboard() {
         <AnimatePresence>
           {showLessonModal && (
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4" onClick={() => setShowLessonModal(null)}>
-              <motion.div initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.9, y: 20 }} onClick={(e) => e.stopPropagation()} className="bg-surface border border-border rounded-[2rem] p-8 w-full max-w-lg max-h-[90vh] overflow-y-auto shadow-2xl">
-                <div className="flex items-center justify-between mb-6">
-                  <h2 className="text-xl font-black tracking-tight">Add Lesson</h2>
+              <motion.div initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.9, y: 20 }} onClick={(e) => e.stopPropagation()} className="bg-surface border border-border rounded-[2rem] p-5 sm:p-8 w-full max-w-5xl max-h-[90vh] overflow-y-auto shadow-2xl">
+                <div className="flex items-center justify-between mb-4 sm:mb-6">
+                  <h2 className="text-xl sm:text-2xl font-black tracking-tight">Add Lesson</h2>
                   <button onClick={() => setShowLessonModal(null)} className="p-2 hover:bg-background rounded-xl transition-colors"><FiX className="w-5 h-5" /></button>
                 </div>
-                <form onSubmit={handleAddLesson} className="space-y-4">
-                  <div>
-                    <label className="block text-xs font-bold uppercase tracking-widest text-muted mb-2">Lesson Title</label>
-                    <input type="text" value={lessonData.title} onChange={(e) => setLessonData({ ...lessonData, title: e.target.value })} placeholder="Lesson title" className="w-full px-4 py-3.5 bg-background border border-border rounded-2xl text-foreground placeholder:text-muted/50 focus:outline-none focus:ring-2 focus:ring-ring text-sm font-medium" required />
+                
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                  {/* Context Section for Existing Lessons */}
+                  {(() => {
+                    const course = courses.find(c => (c.documentId || c.id) === showLessonModal);
+                    const attrs = course?.attributes || course;
+                    const existingLessons = attrs?.lessons?.data || attrs?.lessons || [];
+                    return (
+                      <div className="bg-background/50 border border-border rounded-2xl p-4 sm:p-6 flex flex-col max-h-64 lg:max-h-[65vh]">
+                        <h3 className="text-sm font-black uppercase tracking-widest text-muted mb-4 flex items-center gap-2"><FiList className="w-4 h-4" /> Existing Lessons</h3>
+                        {existingLessons.length > 0 ? (
+                          <div className="space-y-3 overflow-y-auto pr-2 flex-1 custom-scrollbar">
+                            {existingLessons.sort((a, b) => ((a.attributes || a).order || 0) - ((b.attributes || b).order || 0)).map((l, idx) => (
+                              <div
+                                key={l.id || idx}
+                                onClick={() => handleEditLessonSetup(l)}
+                                className={`p-3 border rounded-xl text-sm font-medium text-foreground flex items-start gap-3 cursor-pointer transition-all ${
+                                  editingLessonId === (l.documentId || l.id) ? 'bg-primary/5 border-primary text-primary shadow-sm' : 'bg-surface border-border hover:border-primary/50'
+                                }`}
+                              >
+                                <span className="w-7 h-7 rounded-lg bg-primary/10 text-primary flex items-center justify-center text-xs font-black flex-shrink-0">{(l.attributes || l).order || idx + 1}</span>
+                                <div>
+                                  <p className="font-bold tracking-tight truncate">{(l.attributes || l).title}</p>
+                                  {((l.attributes || l).content) && <p className="text-xs text-muted mt-1 line-clamp-1">{((l.attributes || l).content)}</p>}
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        ) : (
+                          <div className="flex-1 flex flex-col items-center justify-center text-center p-6 text-muted border-2 border-dashed border-border rounded-xl">
+                            <FiBookOpen className="w-8 h-8 mb-2 opacity-50" />
+                            <p className="text-sm font-bold">No lessons yet.</p>
+                            <p className="text-xs mt-1">This will be the first lesson for this course.</p>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })()}
+
+                  {/* Form Section */}
+                  <div className="flex flex-col">
+                    <div className="flex items-center justify-between mb-4">
+                      <h3 className="text-sm font-black uppercase tracking-widest text-muted flex items-center gap-2">
+                        {editingLessonId ? <FiEdit3 className="w-4 h-4 text-primary" /> : <FiPlus className="w-4 h-4 text-success" />}
+                        {editingLessonId ? 'Edit Lesson Details' : 'New Lesson Details'}
+                      </h3>
+                      {editingLessonId && (
+                        <button onClick={handleClearLesson} className="text-[10px] font-black uppercase tracking-widest text-primary hover:underline">
+                          + Add New Instead
+                        </button>
+                      )}
+                    </div>
+                    <form onSubmit={handleAddLesson} className="space-y-5">
+                      <div>
+                        <label className="block text-xs font-bold uppercase tracking-widest text-muted mb-2">Lesson Title</label>
+                        <input type="text" value={lessonData.title} onChange={(e) => setLessonData({ ...lessonData, title: e.target.value })} placeholder="Lesson title" className="w-full px-4 py-3.5 bg-background border border-border rounded-2xl text-foreground placeholder:text-muted/50 focus:outline-none focus:ring-2 focus:ring-ring text-sm font-medium" required />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-bold uppercase tracking-widest text-muted mb-2">Content</label>
+                        <textarea value={lessonData.content} onChange={(e) => setLessonData({ ...lessonData, content: e.target.value })} placeholder="Lesson content (supports markdown)" rows={6} className="w-full px-4 py-3.5 bg-background border border-border rounded-2xl text-foreground placeholder:text-muted/50 focus:outline-none focus:ring-2 focus:ring-ring text-sm font-medium resize-none" />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-bold uppercase tracking-widest text-muted mb-2">Video URL (Optional)</label>
+                        <input type="text" value={lessonData.videoUrl} onChange={(e) => setLessonData({ ...lessonData, videoUrl: e.target.value })} placeholder="https://youtube.com/watch?v=..." className="w-full px-4 py-3.5 bg-background border border-border rounded-2xl text-foreground placeholder:text-muted/50 focus:outline-none focus:ring-2 focus:ring-ring text-sm font-medium" />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-bold uppercase tracking-widest text-muted mb-2">Order</label>
+                        <input type="number" value={lessonData.order} onChange={(e) => setLessonData({ ...lessonData, order: parseInt(e.target.value) || 0 })} className="w-full px-4 py-3.5 bg-background border border-border rounded-2xl text-foreground focus:outline-none focus:ring-2 focus:ring-ring text-sm font-medium" />
+                      </div>
+                      <button type="submit" disabled={submitting} className="w-full py-4 bg-primary text-white text-sm font-black uppercase tracking-widest rounded-2xl shadow-lg shadow-primary/20 hover:shadow-xl transition-all flex items-center justify-center gap-2 disabled:opacity-50 active:scale-[0.98] mt-2">
+                        {submitting ? <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <><FiCheck /> {editingLessonId ? 'Update Lesson' : 'Save Lesson'}</>}
+                      </button>
+                    </form>
                   </div>
-                  <div>
-                    <label className="block text-xs font-bold uppercase tracking-widest text-muted mb-2">Content</label>
-                    <textarea value={lessonData.content} onChange={(e) => setLessonData({ ...lessonData, content: e.target.value })} placeholder="Lesson content (supports markdown)" rows={5} className="w-full px-4 py-3.5 bg-background border border-border rounded-2xl text-foreground placeholder:text-muted/50 focus:outline-none focus:ring-2 focus:ring-ring text-sm font-medium resize-none" />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-bold uppercase tracking-widest text-muted mb-2">Video URL (Optional)</label>
-                    <input type="text" value={lessonData.videoUrl} onChange={(e) => setLessonData({ ...lessonData, videoUrl: e.target.value })} placeholder="https://youtube.com/watch?v=..." className="w-full px-4 py-3.5 bg-background border border-border rounded-2xl text-foreground placeholder:text-muted/50 focus:outline-none focus:ring-2 focus:ring-ring text-sm font-medium" />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-bold uppercase tracking-widest text-muted mb-2">Order</label>
-                    <input type="number" value={lessonData.order} onChange={(e) => setLessonData({ ...lessonData, order: parseInt(e.target.value) || 0 })} className="w-full px-4 py-3.5 bg-background border border-border rounded-2xl text-foreground focus:outline-none focus:ring-2 focus:ring-ring text-sm font-medium" />
-                  </div>
-                  <button type="submit" disabled={submitting} className="w-full py-4 bg-primary text-white text-sm font-black uppercase tracking-widest rounded-2xl shadow-lg shadow-primary/20 hover:shadow-xl transition-all flex items-center justify-center gap-2 disabled:opacity-50 active:scale-[0.98]">
-                    {submitting ? <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <><FiCheck /> Add Lesson</>}
-                  </button>
-                </form>
+                </div>
               </motion.div>
             </motion.div>
           )}
@@ -384,46 +483,111 @@ export default function InstructorDashboard() {
         <AnimatePresence>
           {showQuizModal && (
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4" onClick={() => setShowQuizModal(null)}>
-              <motion.div initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.9, y: 20 }} onClick={(e) => e.stopPropagation()} className="bg-surface border border-border rounded-[2rem] p-8 w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl">
-                <div className="flex items-center justify-between mb-6">
-                  <h2 className="text-xl font-black tracking-tight">Create Quiz</h2>
+              <motion.div initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.9, y: 20 }} onClick={(e) => e.stopPropagation()} className="bg-surface border border-border rounded-[2rem] p-5 sm:p-8 w-full max-w-5xl max-h-[90vh] overflow-y-auto shadow-2xl">
+                <div className="flex items-center justify-between mb-4 sm:mb-6">
+                  <h2 className="text-xl sm:text-2xl font-black tracking-tight">Create Quiz</h2>
                   <button onClick={() => setShowQuizModal(null)} className="p-2 hover:bg-background rounded-xl transition-colors"><FiX className="w-5 h-5" /></button>
                 </div>
-                <form onSubmit={handleAddQuiz} className="space-y-6">
-                  <div>
-                    <label className="block text-xs font-bold uppercase tracking-widest text-muted mb-2">Quiz Title</label>
-                    <input type="text" value={quizData.title} onChange={(e) => setQuizData({ ...quizData, title: e.target.value })} placeholder="Quiz title" className="w-full px-4 py-3.5 bg-background border border-border rounded-2xl text-foreground placeholder:text-muted/50 focus:outline-none focus:ring-2 focus:ring-ring text-sm font-medium" required />
-                  </div>
 
-                  {/* Questions */}
-                  {quizData.questions.map((q, qIndex) => (
-                    <div key={qIndex} className="bg-background border border-border rounded-2xl p-6 space-y-3">
-                      <p className="text-xs font-black uppercase tracking-widest text-primary mb-2">Question {qIndex + 1}</p>
-                      <input type="text" value={q.question} onChange={(e) => updateQuestion(qIndex, 'question', e.target.value)} placeholder="Enter question" className="w-full px-4 py-3 bg-surface border border-border rounded-xl text-foreground placeholder:text-muted/50 focus:outline-none focus:ring-2 focus:ring-ring text-sm" required />
-                      {q.options.map((opt, oIndex) => (
-                        <div key={oIndex} className="flex items-center gap-2">
-                          <input
-                            type="radio"
-                            name={`correct-${qIndex}`}
-                            checked={q.correctAnswer === oIndex}
-                            onChange={() => updateQuestion(qIndex, 'correctAnswer', oIndex)}
-                            className="accent-primary w-4 h-4"
-                          />
-                          <input type="text" value={opt} onChange={(e) => updateOption(qIndex, oIndex, e.target.value)} placeholder={`Option ${oIndex + 1}`} className="flex-grow px-4 py-2.5 bg-surface border border-border rounded-xl text-foreground placeholder:text-muted/50 focus:outline-none focus:ring-2 focus:ring-ring text-sm" required />
-                        </div>
-                      ))}
-                      <p className="text-[10px] text-muted uppercase tracking-widest mt-1">Select the radio button next to the correct answer</p>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                  {/* Context Section for Existing Quizzes */}
+                  {(() => {
+                    const course = courses.find(c => (c.documentId || c.id) === showQuizModal);
+                    const attrs = course?.attributes || course;
+                    const existingQuizzes = attrs?.quizzes?.data || attrs?.quizzes || [];
+                    return (
+                      <div className="bg-background/50 border border-border rounded-2xl p-4 sm:p-6 flex flex-col max-h-64 lg:max-h-[65vh]">
+                        <h3 className="text-sm font-black uppercase tracking-widest text-muted mb-4 flex items-center gap-2"><FiAward className="w-4 h-4" /> Existing Quizzes in this Course</h3>
+                        {existingQuizzes.length > 0 ? (
+                          <div className="space-y-3 overflow-y-auto pr-2 flex-1 custom-scrollbar">
+                            {existingQuizzes.map((q, idx) => {
+                              const questions = (q.attributes || q).questions || [];
+                              return (
+                                <div
+                                  key={q.id || idx}
+                                  onClick={() => handleEditQuizSetup(q)}
+                                  className={`p-4 border rounded-xl text-sm font-medium text-foreground cursor-pointer transition-all ${
+                                    editingQuizId === (q.documentId || q.id) ? 'bg-primary/5 border-primary text-primary shadow-sm' : 'bg-surface border-border hover:border-primary/50'
+                                  }`}
+                                >
+                                  <div className="flex items-center gap-3 mb-2">
+                                    <span className="w-7 h-7 rounded-lg bg-primary/10 text-primary flex items-center justify-center text-xs font-black flex-shrink-0">{idx + 1}</span>
+                                    <p className="font-bold tracking-tight truncate">{(q.attributes || q).title}</p>
+                                  </div>
+                                  {questions.length > 0 && (
+                                    <p className="text-xs text-muted pl-10">{questions.length} Question{questions.length !== 1 ? 's' : ''} in this quiz</p>
+                                  )}
+                                </div>
+                              );
+                            })}
+                          </div>
+                        ) : (
+                          <div className="flex-1 flex flex-col items-center justify-center text-center p-6 text-muted border-2 border-dashed border-border rounded-xl">
+                            <FiAward className="w-8 h-8 mb-2 opacity-50" />
+                            <p className="text-sm font-bold">No quizzes yet.</p>
+                            <p className="text-xs mt-1">Add the first quiz for this course.</p>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })()}
+
+                  {/* Form Section */}
+                  <div className="flex flex-col">
+                    <div className="flex items-center justify-between mb-4">
+                      <h3 className="text-sm font-black uppercase tracking-widest text-muted flex items-center gap-2">
+                        {editingQuizId ? <FiEdit3 className="w-4 h-4 text-primary" /> : <FiPlus className="w-4 h-4 text-success" />}
+                        {editingQuizId ? 'Edit Quiz Details' : 'New Quiz Details'}
+                      </h3>
+                      {editingQuizId && (
+                        <button onClick={handleClearQuiz} className="text-[10px] font-black uppercase tracking-widest text-primary hover:underline">
+                          + Add New Instead
+                        </button>
+                      )}
                     </div>
-                  ))}
+                    <form onSubmit={handleAddQuiz} className="space-y-6">
+                      <div>
+                        <label className="block text-xs font-bold uppercase tracking-widest text-muted mb-2">Quiz Title</label>
+                        <input type="text" value={quizData.title} onChange={(e) => setQuizData({ ...quizData, title: e.target.value })} placeholder="Quiz title" className="w-full px-4 py-3.5 bg-background border border-border rounded-2xl text-foreground placeholder:text-muted/50 focus:outline-none focus:ring-2 focus:ring-ring text-sm font-medium" required />
+                      </div>
 
-                  <button type="button" onClick={addQuestion} className="w-full py-3 border-2 border-dashed border-border rounded-2xl text-sm font-bold text-muted hover:border-primary hover:text-primary transition-colors flex items-center justify-center gap-2">
-                    <FiPlus /> Add Another Question
-                  </button>
+                      {/* Questions */}
+                      <div className="space-y-4 max-h-[40vh] overflow-y-auto pr-2 custom-scrollbar">
+                        {quizData.questions.map((q, qIndex) => (
+                          <div key={qIndex} className="bg-background border border-border rounded-2xl p-5 space-y-3">
+                            <div className="flex items-center justify-between mb-2">
+                              <p className="text-xs font-black uppercase tracking-widest text-primary">Question {qIndex + 1}</p>
+                            </div>
+                            <input type="text" value={q.question} onChange={(e) => updateQuestion(qIndex, 'question', e.target.value)} placeholder="Enter question" className="w-full px-4 py-3 bg-surface border border-border rounded-xl text-foreground placeholder:text-muted/50 focus:outline-none focus:ring-2 focus:ring-ring text-sm" required />
+                            <div className="space-y-2 mt-2">
+                              {q.options.map((opt, oIndex) => (
+                                <div key={oIndex} className="flex items-center gap-2">
+                                  <input
+                                    type="radio"
+                                    name={`correct-${qIndex}`}
+                                    checked={q.correctAnswer === oIndex}
+                                    onChange={() => updateQuestion(qIndex, 'correctAnswer', oIndex)}
+                                    className="accent-primary w-4 h-4"
+                                  />
+                                  <input type="text" value={opt} onChange={(e) => updateOption(qIndex, oIndex, e.target.value)} placeholder={`Option ${oIndex + 1}`} className="flex-grow px-3 py-2 bg-surface border border-border rounded-lg text-foreground placeholder:text-muted/50 focus:outline-none focus:ring-2 focus:ring-ring text-sm" required />
+                                </div>
+                              ))}
+                            </div>
+                            <p className="text-[10px] text-muted uppercase tracking-widest mt-2">Select the radio button next to the correct answer</p>
+                          </div>
+                        ))}
+                      </div>
 
-                  <button type="submit" disabled={submitting} className="w-full py-4 bg-primary text-white text-sm font-black uppercase tracking-widest rounded-2xl shadow-lg shadow-primary/20 hover:shadow-xl transition-all flex items-center justify-center gap-2 disabled:opacity-50 active:scale-[0.98]">
-                    {submitting ? <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <><FiCheck /> Create Quiz</>}
-                  </button>
-                </form>
+                      <button type="button" onClick={addQuestion} className="w-full py-3 border-2 border-dashed border-border rounded-2xl text-sm font-bold text-muted hover:border-primary hover:text-primary transition-colors flex items-center justify-center gap-2">
+                        <FiPlus /> Add Another Question
+                      </button>
+
+                      <button type="submit" disabled={submitting} className="w-full py-4 bg-primary text-white text-sm font-black uppercase tracking-widest rounded-2xl shadow-lg shadow-primary/20 hover:shadow-xl transition-all flex items-center justify-center gap-2 disabled:opacity-50 active:scale-[0.98]">
+                        {submitting ? <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <><FiCheck /> {editingQuizId ? 'Update Quiz' : 'Create Quiz'}</>}
+                      </button>
+                    </form>
+                  </div>
+                </div>
               </motion.div>
             </motion.div>
           )}

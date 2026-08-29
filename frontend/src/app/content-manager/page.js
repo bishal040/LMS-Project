@@ -254,8 +254,8 @@ export default function ContentManagerDashboard() {
         <AnimatePresence>
           {showModal && (
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4" onClick={() => setShowModal(false)}>
-              <motion.div initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.9, y: 20 }} onClick={(e) => e.stopPropagation()} className="bg-surface border border-border rounded-[2rem] p-8 w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl">
-                <div className="flex items-center justify-between mb-6">
+              <motion.div initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.9, y: 20 }} onClick={(e) => e.stopPropagation()} className="bg-surface border border-border rounded-[2rem] p-5 sm:p-8 w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl">
+                <div className="flex items-center justify-between mb-4 sm:mb-6">
                   <h2 className="text-xl font-black tracking-tight">{editingPost ? 'Edit Post' : 'Create New Post'}</h2>
                   <button onClick={() => setShowModal(false)} className="p-2 hover:bg-background rounded-xl transition-colors"><FiX className="w-5 h-5" /></button>
                 </div>
