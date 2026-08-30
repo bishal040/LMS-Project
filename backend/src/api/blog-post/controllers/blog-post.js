@@ -12,40 +12,64 @@ const { createCoreController } = require('@strapi/strapi').factories;
 module.exports = createCoreController('api::blog-post.blog-post', ({ strapi }) => ({
   // Override create to auto-assign author
   async create(ctx) {
-    const user = ctx.state.user;
-    if (!user) return ctx.unauthorized('You must be logged in');
+    try {
+      const user = ctx.state.user;
+      if (!user) return ctx.unauthorized('You must be logged in');
 
-    // Content managers or admins only
-    const role = user.role?.type || '';
-    if (!['admin', 'content_manager'].includes(role)) {
-      return ctx.forbidden('You do not have permission to create blog posts');
+      // Content managers or admins only
+      const role = user.role?.type || '';
+      if (!['admin', 'content_manager'].includes(role)) {
+        return ctx.forbidden('You do not have permission to create blog posts');
+      }
+
+      const inputData = ctx.request.body.data || {};
+
+      // Create directly via document service to avoid REST API body format issues
+      const entry = await strapi.documents('api::blog-post.blog-post').create({
+        data: {
+          title: inputData.title,
+          body: inputData.body,
+          coverImageUrl: inputData.coverImageUrl || '',
+          status: inputData.status || 'draft',
+          author: user.id,
+          publishedAt: inputData.status === 'published' ? new Date().toISOString() : null,
+        },
+        populate: ['author'],
+      });
+
+      return { data: entry };
+    } catch (err) {
+      strapi.log.error('Blog create error:', err);
+      return ctx.badRequest(err.message || 'Failed to create blog post');
     }
-
-    ctx.request.body.data = {
-      ...ctx.request.body.data,
-      author: user.id,
-      publishedAt: ctx.request.body.data?.status === 'published' ? new Date().toISOString() : null,
-    };
-
-    const response = await super.create(ctx);
-    return response;
   },
 
   // Override update to handle publishedAt timestamp
   async update(ctx) {
-    const data = ctx.request.body.data || {};
-    
-    if (data.status === 'published') {
-      const existing = await strapi.documents('api::blog-post.blog-post').findOne({
-        documentId: ctx.params.id,
-      });
-      if (existing && existing.status !== 'published') {
-        data.publishedAt = new Date().toISOString();
-      }
-    }
+    try {
+      const inputData = ctx.request.body.data || {};
 
-    const response = await super.update(ctx);
-    return response;
+      // Check current status to set publishedAt
+      if (inputData.status === 'published') {
+        const existing = await strapi.documents('api::blog-post.blog-post').findOne({
+          documentId: ctx.params.id,
+        });
+        if (existing && existing.status !== 'published') {
+          inputData.publishedAt = new Date().toISOString();
+        }
+      }
+
+      const entry = await strapi.documents('api::blog-post.blog-post').update({
+        documentId: ctx.params.id,
+        data: inputData,
+        populate: ['author'],
+      });
+
+      return { data: entry };
+    } catch (err) {
+      strapi.log.error('Blog update error:', err);
+      return ctx.badRequest(err.message || 'Failed to update blog post');
+    }
   },
 
   // Override find to only show published posts to non-staff
