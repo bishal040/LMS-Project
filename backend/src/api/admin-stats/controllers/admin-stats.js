@@ -15,13 +15,13 @@ module.exports = {
       const usersCount = await strapi.db.query('plugin::users-permissions.user').count();
       
       // Get total courses
-      const coursesCount = await strapi.documents('api::course.course').count();
+      const coursesCount = await strapi.db.query('api::course.course').count();
       
       // Get total enrollments
-      const enrollmentsCount = await strapi.documents('api::enrollment.enrollment').count();
+      const enrollmentsCount = await strapi.db.query('api::enrollment.enrollment').count();
       
       // Get total blog posts
-      const blogsCount = await strapi.documents('api::blog-post.blog-post').count();
+      const blogsCount = await strapi.db.query('api::blog-post.blog-post').count();
 
       // Recent enrollments for activity feed
       const recentEnrollments = await strapi.documents('api::enrollment.enrollment').findMany({
