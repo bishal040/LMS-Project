@@ -9,6 +9,7 @@ module.exports = (plugin) => {
 
     // If a user was successfully returned, fetch and attach their role
     if (ctx.body && ctx.body.id) {
+      /** @type {any} */
       const userWithRole = await strapi.entityService.findOne(
         'plugin::users-permissions.user',
         ctx.body.id,
