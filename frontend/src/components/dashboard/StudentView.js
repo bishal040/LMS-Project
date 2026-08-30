@@ -22,7 +22,9 @@ export default function StudentView() {
   const fetchDashboardData = async () => {
     try {
       // Get enrollments
+      console.log('Fetching enrollments...');
       const enrollRes = await getMyEnrollments();
+      console.log('Enrollments response:', enrollRes);
       const courses = enrollRes?.data || [];
       setEnrollments(courses);
 
@@ -35,15 +37,17 @@ export default function StudentView() {
             const prog = await getCourseProgress(courseId);
             progressMap[courseId] = prog?.data;
           } catch (e) {
-            console.error(`Failed to load progress for ${courseId}`);
+            console.error(`Failed to load progress for ${courseId}`, e?.response?.status, e?.response?.data);
           }
         }
       }
       setProgressData(progressMap);
 
     } catch (err) {
-      console.error('Failed to load dashboard:', err);
-      toast.error('Failed to load dashboard data');
+      const status = err?.response?.status;
+      const msg = err?.response?.data?.error?.message || err.message;
+      console.error('Failed to load dashboard:', status, msg, err);
+      toast.error(`Failed to load dashboard data (${status}: ${msg})`);
     } finally {
       setLoading(false);
     }
