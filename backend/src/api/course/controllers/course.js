@@ -11,19 +11,37 @@
 const { createCoreController } = require('@strapi/strapi').factories;
 
 module.exports = createCoreController('api::course.course', ({ strapi }) => ({
-  // Override create to auto-assign instructor
+  // Override create to auto-assign instructor using Document API
   async create(ctx) {
-    const user = ctx.state.user;
-    if (!user) return ctx.unauthorized('You must be logged in');
+    try {
+      const user = ctx.state.user;
+      if (!user) return ctx.unauthorized('You must be logged in');
 
-    // Set instructor to current user. Strapi 5 uses documentId for relations.
-    const requestData = ctx.request.body?.data || {};
-    ctx.request.body.data = {
-      ...requestData,
-      instructor: user.documentId,
-    };
+      const role = await this.getRole(user);
+      if (!['admin', 'content_manager', 'instructor'].includes(role)) {
+        return ctx.forbidden('You do not have permission to create courses');
+      }
 
-    return await super.create(ctx);
+      const inputData = ctx.request.body?.data || {};
+      
+      const entry = await strapi.documents('api::course.course').create({
+        data: {
+          title: inputData.title,
+          description: inputData.description,
+          coverImageUrl: inputData.coverImageUrl || '',
+          category: inputData.category || 'General',
+          status: inputData.status || 'draft',
+          // Set instructor to current user (Strapi v5 uses documentId for relations in Document API)
+          instructor: user.documentId,
+        },
+        populate: ['instructor'],
+      });
+
+      return { data: entry };
+    } catch (err) {
+      strapi.log.error('Course create error:', err);
+      return ctx.badRequest(err.message || 'Failed to create course');
+    }
   },
 
   // Helper to accurately fetch role
