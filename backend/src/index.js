@@ -50,17 +50,17 @@ module.exports = {
 
       if (!publicRole || !authRole) return;
 
-      // ── Helper: grant permissions idempotently ────────────────────
+      // ── Helper: grant permissions — always force-reset to ensure clean state ──
       const grantPermissions = async (roleId, actions) => {
+        // Delete ALL existing permissions for this role first
+        await strapi.db.query('plugin::users-permissions.permission').deleteMany({
+          where: { role: roleId }
+        });
+        // Re-create them fresh
         for (const action of actions) {
-          const existing = await strapi.db.query('plugin::users-permissions.permission').findOne({
-            where: { action, role: roleId }
+          await strapi.db.query('plugin::users-permissions.permission').create({
+            data: { action, role: roleId }
           });
-          if (!existing) {
-            await strapi.db.query('plugin::users-permissions.permission').create({
-              data: { action, role: roleId }
-            });
-          }
         }
       };
 
