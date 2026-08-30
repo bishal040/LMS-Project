@@ -50,16 +50,23 @@ module.exports = {
 
       if (!publicRole || !authRole) return;
 
-      // ── Helper: grant permissions — always force-reset to ensure clean state ──
+      // ── Helper: force-reset permissions for a role (delete all, then recreate) ──
       const grantPermissions = async (roleId, actions) => {
-        // Delete ALL existing permissions for this role first
-        await strapi.db.query('plugin::users-permissions.permission').deleteMany({
-          where: { role: roleId }
+        // Step 1: find all existing permission IDs for this role
+        const existing = await strapi.db.query('plugin::users-permissions.permission').findMany({
+          where: { role: roleId },
+          select: ['id'],
         });
-        // Re-create them fresh
+        // Step 2: delete by explicit ID list (safe across all Strapi v5 versions)
+        if (existing.length > 0) {
+          await strapi.db.query('plugin::users-permissions.permission').deleteMany({
+            where: { id: { $in: existing.map(p => p.id) } },
+          });
+        }
+        // Step 3: create fresh permissions
         for (const action of actions) {
           await strapi.db.query('plugin::users-permissions.permission').create({
-            data: { action, role: roleId }
+            data: { action, role: roleId },
           });
         }
       };
