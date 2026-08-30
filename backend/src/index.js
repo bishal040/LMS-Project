@@ -223,6 +223,7 @@ module.exports = {
           'api::enrollment.enrollment.courseStudents',
           'api::quiz-attempt.quiz-attempt.create',
           'api::quiz-attempt.quiz-attempt.me',
+          'api::admin-stats.admin-stats.getStats',
         ]);
       }
 
