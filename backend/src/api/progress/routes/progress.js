@@ -6,13 +6,13 @@ module.exports = {
       method: 'POST',
       path: '/progresses',
       handler: 'progress.create',
-      config: { auth: false },
+      config: { auth: false, policies: ['global::is-authenticated'] },
     },
     {
       method: 'GET',
       path: '/progresses/course/:courseId',
       handler: 'progress.courseProgress',
-      config: { auth: false },
+      config: { auth: false, policies: ['global::is-authenticated'] },
     },
   ],
 };

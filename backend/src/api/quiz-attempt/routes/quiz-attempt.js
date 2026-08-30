@@ -6,13 +6,13 @@ module.exports = {
       method: 'POST',
       path: '/quiz-attempts',
       handler: 'quiz-attempt.create',
-      config: { auth: false },
+      config: { auth: false, policies: ['global::is-authenticated'] },
     },
     {
       method: 'GET',
       path: '/quiz-attempts/me',
       handler: 'quiz-attempt.me',
-      config: { auth: false },
+      config: { auth: false, policies: ['global::is-authenticated'] },
     },
   ],
 };
