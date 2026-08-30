@@ -51,7 +51,7 @@ export default function InstructorView() {
     try {
       let filters = '';
       if (!isContentManager && userRole === 'instructor') {
-        filters = `filters[instructor][id][$eq]=${user.id}`;
+        filters = `filters[instructor][documentId][$eq]=${user.documentId || user.id}`;
       }
       const data = await getCourses(filters);
       setCourses(data?.data || []);
