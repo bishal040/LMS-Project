@@ -226,9 +226,83 @@ module.exports = {
         ]);
       }
 
+      // ── 9. Seed Demo Data ─────────────────────────────────────────
+      const courseCount = await strapi.db.query('api::course.course').count();
+      if (courseCount === 0) {
+        console.log('🌱 Seeding demo courses...');
+        let instructorUser = await strapi.db.query('plugin::users-permissions.user').findOne({
+          where: { email: 'demo_instructor@example.com' },
+          populate: ['role']
+        });
+
+        if (!instructorUser && instructorRole) {
+          instructorUser = await strapi.documents('plugin::users-permissions.user').create({
+            data: {
+              username: 'Demo Instructor',
+              email: 'demo_instructor@example.com',
+              password: 'Password123!',
+              role: instructorRole.documentId,
+              confirmed: true,
+              provider: 'local'
+            }
+          });
+        }
+
+        if (instructorUser) {
+          const categories = ['Programming', 'Design', 'Marketing', 'Business', 'Photography'];
+
+          for (let i = 1; i <= 5; i++) {
+            const course = await strapi.documents('api::course.course').create({
+              data: {
+                title: `Demo Course ${i}: Mastering ${categories[i-1]}`,
+                description: `This is a comprehensive demo course about ${categories[i-1]}. Learn the fundamentals and advanced techniques from industry experts.`,
+                category: categories[i-1],
+                status: 'published',
+                instructor: instructorUser.documentId,
+                coverImageUrl: `https://picsum.photos/seed/course${i}/800/400`,
+              }
+            });
+
+            // Create Lessons
+            for (let j = 1; j <= 3; j++) {
+              await strapi.documents('api::lesson.lesson').create({
+                data: {
+                  title: `Lesson ${j}: Introduction to ${categories[i-1]} Part ${j}`,
+                  content: `Welcome to Lesson ${j}. Here we will explore the core concepts of this topic...`,
+                  order: j,
+                  course: course.documentId,
+                  videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
+                }
+              });
+            }
+
+            // Create Quiz
+            await strapi.documents('api::quiz.quiz').create({
+              data: {
+                title: `Final Quiz for ${categories[i-1]}`,
+                course: course.documentId,
+                questions: [
+                  {
+                    question: `What is the main purpose of ${categories[i-1]}?`,
+                    options: ['To build things', 'To sell things', 'To design things', 'All of the above'],
+                    correctAnswer: 3
+                  },
+                  {
+                    question: `Is ${categories[i-1]} easy to learn?`,
+                    options: ['Yes', 'No', 'Maybe', 'It depends'],
+                    correctAnswer: 3
+                  }
+                ]
+              }
+            });
+          }
+          console.log('✅ Demo data seeded successfully');
+        }
+      }
+
       console.log('✅ LMS API Permissions Auto-Configured Successfully');
     } catch (err) {
-      console.error('Failed to auto-configure permissions:', err);
+      console.error('Failed to auto-configure permissions or seed data:', err);
     }
   },
 };
