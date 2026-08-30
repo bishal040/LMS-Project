@@ -1,3 +1,4 @@
+// @ts-ignore
 import { mergeConfig } from 'vite';
 
 export default (config) => {
