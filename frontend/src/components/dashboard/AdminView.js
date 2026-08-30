@@ -68,6 +68,13 @@ export default function AdminView() {
 
   if (loading) return <LoadingSpinner label="Loading admin dashboard..." />;
 
+  // Calculate users per role
+  const usersPerRole = users.reduce((acc, u) => {
+    const roleName = u.role?.name || 'No Role';
+    acc[roleName] = (acc[roleName] || 0) + 1;
+    return acc;
+  }, {});
+
   const statCards = [
     {
       label: 'Total Users',
@@ -222,26 +229,28 @@ export default function AdminView() {
               </div>
             </div>
 
-            {/* Platform Health */}
+            {/* Users Breakdown */}
             <div className="bg-surface border border-border rounded-[2rem] p-8">
               <h2 className="text-xl font-black tracking-tight mb-6 flex items-center gap-2">
-                <FiActivity className="text-primary" /> Platform Health
+                <FiUsers className="text-primary" /> Users by Role
               </h2>
-              <div className="space-y-5">
-                {[
-                  { label: 'API Status', value: 'Online', status: 'good' },
-                  { label: 'Database', value: 'SQLite (Dev) / PostgreSQL (Prod)', status: 'good' },
-                  { label: 'Auth System', value: 'JWT Active', status: 'good' },
-                  { label: 'Content Types', value: '7 registered', status: 'good' },
-                ].map((item) => (
-                  <div key={item.label} className="flex items-center justify-between p-4 bg-background rounded-2xl border border-border/50">
-                    <div>
-                      <p className="font-bold text-sm">{item.label}</p>
-                      <p className="text-xs text-muted">{item.value}</p>
+              <div className="space-y-4">
+                {Object.entries(usersPerRole).map(([role, count]) => (
+                  <div key={role} className="flex items-center justify-between p-4 bg-background rounded-2xl border border-border/50">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center font-black">
+                        {role.charAt(0).toUpperCase()}
+                      </div>
+                      <p className="font-bold text-sm">{role}</p>
                     </div>
-                    <div className="w-3 h-3 rounded-full bg-success animate-pulse" />
+                    <div className="text-lg font-black text-foreground">
+                      {count} <span className="text-xs text-muted font-bold ml-1">Users</span>
+                    </div>
                   </div>
                 ))}
+                {Object.keys(usersPerRole).length === 0 && (
+                  <p className="text-muted text-sm text-center py-4">No user data available.</p>
+                )}
               </div>
             </div>
           </motion.div>

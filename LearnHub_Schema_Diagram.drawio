@@ -1,0 +1,204 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="LearnHub Schema &amp; Permissions" id="0">
+    <mxGraphModel dx="1600" dy="1200" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1200" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- Legend -->
+        <mxCell id="LegendBox" value="&lt;b&gt;Legend&lt;/b&gt;&lt;br&gt;&lt;hr&gt;&lt;font color=&quot;#1ba1e2&quot;&gt;-- Dashed Blue&lt;/font&gt;: Role Permissions / Actions&lt;br&gt;&lt;font color=&quot;#000000&quot;&gt;— Solid Black&lt;/font&gt;: Database Foreign Key Relations" style="rounded=1;whiteSpace=wrap;html=1;align=left;spacingLeft=10;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="50" y="20" width="300" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- =================== ROLES =================== -->
+        <mxCell id="Role_Admin" value="&lt;b&gt;ROLE: Admin&lt;/b&gt;&lt;br&gt;Highest Privilege" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="50" y="150" width="180" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Role_CM" value="&lt;b&gt;ROLE: Content Manager&lt;/b&gt;&lt;br&gt;Platform Content" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="50" y="300" width="180" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Role_Instructor" value="&lt;b&gt;ROLE: Instructor&lt;/b&gt;&lt;br&gt;Course Creator" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="50" y="500" width="180" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Role_Student" value="&lt;b&gt;ROLE: Student&lt;/b&gt;&lt;br&gt;Learner" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="50" y="750" width="180" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- =================== ENTITIES =================== -->
+        <mxCell id="User" value="&lt;b&gt;User (Database Table)&lt;/b&gt;&lt;br&gt;&lt;hr&gt;id&lt;br&gt;username&lt;br&gt;email&lt;br&gt;password&lt;br&gt;role" style="rounded=1;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacingTop=4;spacingLeft=10;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="400" y="50" width="220" height="110" as="geometry" />
+        </mxCell>
+
+        <mxCell id="BlogPost" value="&lt;b&gt;BlogPost&lt;/b&gt;&lt;br&gt;&lt;hr&gt;id&lt;br&gt;title&lt;br&gt;body&lt;br&gt;status (draft | published)&lt;br&gt;publishedAt&lt;br&gt;coverImageUrl" style="rounded=1;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacingTop=4;spacingLeft=10;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="800" y="50" width="200" height="130" as="geometry" />
+        </mxCell>
+
+        <mxCell id="Course" value="&lt;b&gt;Course&lt;/b&gt;&lt;br&gt;&lt;hr&gt;id&lt;br&gt;title&lt;br&gt;description&lt;br&gt;category&lt;br&gt;status (draft | published)&lt;br&gt;coverImageUrl" style="rounded=1;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacingTop=4;spacingLeft=10;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="400" y="350" width="220" height="130" as="geometry" />
+        </mxCell>
+
+        <mxCell id="Lesson" value="&lt;b&gt;Lesson&lt;/b&gt;&lt;br&gt;&lt;hr&gt;id&lt;br&gt;title&lt;br&gt;content&lt;br&gt;videoUrl&lt;br&gt;order" style="rounded=1;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacingTop=4;spacingLeft=10;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="800" y="270" width="200" height="110" as="geometry" />
+        </mxCell>
+
+        <mxCell id="Quiz" value="&lt;b&gt;Quiz&lt;/b&gt;&lt;br&gt;&lt;hr&gt;id&lt;br&gt;title&lt;br&gt;questions (JSON)" style="rounded=1;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacingTop=4;spacingLeft=10;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="800" y="440" width="200" height="90" as="geometry" />
+        </mxCell>
+
+        <mxCell id="Enrollment" value="&lt;b&gt;Enrollment&lt;/b&gt;&lt;br&gt;&lt;hr&gt;id&lt;br&gt;enrolledAt" style="rounded=1;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacingTop=4;spacingLeft=10;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="800" y="600" width="200" height="70" as="geometry" />
+        </mxCell>
+
+        <mxCell id="Progress" value="&lt;b&gt;Progress&lt;/b&gt;&lt;br&gt;&lt;hr&gt;id&lt;br&gt;completed (boolean)&lt;br&gt;completedAt" style="rounded=1;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacingTop=4;spacingLeft=10;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="800" y="720" width="200" height="90" as="geometry" />
+        </mxCell>
+
+        <mxCell id="QuizAttempt" value="&lt;b&gt;QuizAttempt&lt;/b&gt;&lt;br&gt;&lt;hr&gt;id&lt;br&gt;score&lt;br&gt;totalQuestions&lt;br&gt;answers&lt;br&gt;submittedAt" style="rounded=1;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacingTop=4;spacingLeft=10;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="400" y="700" width="220" height="110" as="geometry" />
+        </mxCell>
+
+        <!-- =================== DATA RELATIONS (Solid) =================== -->
+        <mxCell id="rel_course_user" edge="1" parent="1" source="Course" target="User" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;">
+          <mxGeometry relative="1" as="geometry" />
+          <mxCell value="instructor" style="edgeLabel;html=1;align=center;" vertex="1" connectable="0" parent="rel_course_user">
+             <mxGeometry x="-0.2" y="0" relative="1" as="geometry"><mxPoint as="offset" /></mxGeometry>
+          </mxCell>
+        </mxCell>
+
+        <mxCell id="rel_blog_user" edge="1" parent="1" source="BlogPost" target="User" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;">
+          <mxGeometry relative="1" as="geometry" />
+          <mxCell value="author" style="edgeLabel;html=1;align=center;" vertex="1" connectable="0" parent="rel_blog_user">
+             <mxGeometry x="-0.2" y="0" relative="1" as="geometry"><mxPoint as="offset" /></mxGeometry>
+          </mxCell>
+        </mxCell>
+
+        <mxCell id="rel_lesson_course" edge="1" parent="1" source="Lesson" target="Course" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;">
+          <mxGeometry relative="1" as="geometry" />
+          <mxCell value="course" style="edgeLabel;html=1;align=center;" vertex="1" connectable="0" parent="rel_lesson_course">
+             <mxGeometry x="-0.2" y="0" relative="1" as="geometry"><mxPoint as="offset" /></mxGeometry>
+          </mxCell>
+        </mxCell>
+
+        <mxCell id="rel_quiz_course" edge="1" parent="1" source="Quiz" target="Course" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;">
+          <mxGeometry relative="1" as="geometry" />
+          <mxCell value="course" style="edgeLabel;html=1;align=center;" vertex="1" connectable="0" parent="rel_quiz_course">
+             <mxGeometry x="-0.2" y="0" relative="1" as="geometry"><mxPoint as="offset" /></mxGeometry>
+          </mxCell>
+        </mxCell>
+
+        <mxCell id="rel_enroll_course" edge="1" parent="1" source="Enrollment" target="Course" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;">
+          <mxGeometry relative="1" as="geometry" />
+          <mxCell value="course" style="edgeLabel;html=1;align=center;" vertex="1" connectable="0" parent="rel_enroll_course">
+             <mxGeometry x="-0.2" y="0" relative="1" as="geometry"><mxPoint as="offset" /></mxGeometry>
+          </mxCell>
+        </mxCell>
+
+        <mxCell id="rel_enroll_user" edge="1" parent="1" source="Enrollment" target="User" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points"><mxPoint x="1050" y="635"/><mxPoint x="1050" y="105"/></Array>
+          </mxGeometry>
+          <mxCell value="student" style="edgeLabel;html=1;align=center;" vertex="1" connectable="0" parent="rel_enroll_user">
+             <mxGeometry x="-0.2" y="0" relative="1" as="geometry"><mxPoint as="offset" /></mxGeometry>
+          </mxCell>
+        </mxCell>
+
+        <mxCell id="rel_prog_lesson" edge="1" parent="1" source="Progress" target="Lesson" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points"><mxPoint x="1100" y="765"/><mxPoint x="1100" y="325"/></Array>
+          </mxGeometry>
+          <mxCell value="lesson" style="edgeLabel;html=1;align=center;" vertex="1" connectable="0" parent="rel_prog_lesson">
+             <mxGeometry x="-0.2" y="0" relative="1" as="geometry"><mxPoint as="offset" /></mxGeometry>
+          </mxCell>
+        </mxCell>
+
+        <mxCell id="rel_prog_course" edge="1" parent="1" source="Progress" target="Course" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points"><mxPoint x="750" y="765"/><mxPoint x="750" y="440"/></Array>
+          </mxGeometry>
+          <mxCell value="course" style="edgeLabel;html=1;align=center;" vertex="1" connectable="0" parent="rel_prog_course">
+             <mxGeometry x="-0.2" y="0" relative="1" as="geometry"><mxPoint as="offset" /></mxGeometry>
+          </mxCell>
+        </mxCell>
+
+        <mxCell id="rel_prog_user" edge="1" parent="1" source="Progress" target="User" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points"><mxPoint x="1070" y="765"/><mxPoint x="1070" y="125"/></Array>
+          </mxGeometry>
+          <mxCell value="student" style="edgeLabel;html=1;align=center;" vertex="1" connectable="0" parent="rel_prog_user">
+             <mxGeometry x="-0.2" y="0" relative="1" as="geometry"><mxPoint as="offset" /></mxGeometry>
+          </mxCell>
+        </mxCell>
+
+        <mxCell id="rel_qa_quiz" edge="1" parent="1" source="QuizAttempt" target="Quiz" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;">
+          <mxGeometry relative="1" as="geometry" />
+          <mxCell value="quiz" style="edgeLabel;html=1;align=center;" vertex="1" connectable="0" parent="rel_qa_quiz">
+             <mxGeometry x="-0.2" y="0" relative="1" as="geometry"><mxPoint as="offset" /></mxGeometry>
+          </mxCell>
+        </mxCell>
+
+        <mxCell id="rel_qa_user" edge="1" parent="1" source="QuizAttempt" target="User" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points"><mxPoint x="380" y="755"/><mxPoint x="380" y="105"/></Array>
+          </mxGeometry>
+          <mxCell value="student" style="edgeLabel;html=1;align=center;" vertex="1" connectable="0" parent="rel_qa_user">
+             <mxGeometry x="-0.2" y="0" relative="1" as="geometry"><mxPoint as="offset" /></mxGeometry>
+          </mxCell>
+        </mxCell>
+
+        <!-- =================== PERMISSIONS (Dashed Blue) =================== -->
+        
+        <!-- Admin Permissions -->
+        <mxCell id="perm_admin_user" edge="1" parent="1" source="Role_Admin" target="User" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;dashed=1;strokeColor=#1ba1e2;strokeWidth=2;">
+          <mxGeometry relative="1" as="geometry" />
+          <mxCell value="Manage All Roles" style="edgeLabel;html=1;align=center;fontColor=#1ba1e2;backgroundColor=#ffffff;" vertex="1" connectable="0" parent="perm_admin_user">
+             <mxGeometry x="-0.3" y="0" relative="1" as="geometry"><mxPoint as="offset" /></mxGeometry>
+          </mxCell>
+        </mxCell>
+        
+        <!-- CM Permissions -->
+        <mxCell id="perm_cm_course" edge="1" parent="1" source="Role_CM" target="Course" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;dashed=1;strokeColor=#1ba1e2;strokeWidth=2;entryX=0;entryY=0.25;">
+          <mxGeometry relative="1" as="geometry" />
+          <mxCell value="CRUD All Courses &amp;amp; Quizzes" style="edgeLabel;html=1;align=center;fontColor=#1ba1e2;backgroundColor=#ffffff;" vertex="1" connectable="0" parent="perm_cm_course">
+             <mxGeometry x="0" y="0" relative="1" as="geometry"><mxPoint as="offset" /></mxGeometry>
+          </mxCell>
+        </mxCell>
+        <mxCell id="perm_cm_blog" edge="1" parent="1" source="Role_CM" target="BlogPost" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;dashed=1;strokeColor=#1ba1e2;strokeWidth=2;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points"><mxPoint x="350" y="330"/><mxPoint x="350" y="180"/><mxPoint x="830" y="180"/></Array>
+          </mxGeometry>
+          <mxCell value="CRUD All Blogs" style="edgeLabel;html=1;align=center;fontColor=#1ba1e2;backgroundColor=#ffffff;" vertex="1" connectable="0" parent="perm_cm_blog">
+             <mxGeometry x="0.2" y="0" relative="1" as="geometry"><mxPoint as="offset" /></mxGeometry>
+          </mxCell>
+        </mxCell>
+
+        <!-- Instructor Permissions -->
+        <mxCell id="perm_inst_course" edge="1" parent="1" source="Role_Instructor" target="Course" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;dashed=1;strokeColor=#1ba1e2;strokeWidth=2;entryX=0;entryY=0.75;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points"><mxPoint x="320" y="530"/><mxPoint x="320" y="448"/></Array>
+          </mxGeometry>
+          <mxCell value="CRUD Own Courses &amp;amp; Content Only" style="edgeLabel;html=1;align=center;fontColor=#1ba1e2;backgroundColor=#ffffff;" vertex="1" connectable="0" parent="perm_inst_course">
+             <mxGeometry x="0" y="0" relative="1" as="geometry"><mxPoint as="offset" /></mxGeometry>
+          </mxCell>
+        </mxCell>
+
+        <!-- Student Permissions -->
+        <mxCell id="perm_stu_enroll" edge="1" parent="1" source="Role_Student" target="Enrollment" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;dashed=1;strokeColor=#1ba1e2;strokeWidth=2;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points"><mxPoint x="280" y="780"/><mxPoint x="280" y="850"/><mxPoint x="900" y="850"/></Array>
+          </mxGeometry>
+          <mxCell value="Can Enroll &amp;amp; Track Progress" style="edgeLabel;html=1;align=center;fontColor=#1ba1e2;backgroundColor=#ffffff;" vertex="1" connectable="0" parent="perm_stu_enroll">
+             <mxGeometry x="0" y="0" relative="1" as="geometry"><mxPoint as="offset" /></mxGeometry>
+          </mxCell>
+        </mxCell>
+        
+        <mxCell id="perm_stu_qa" edge="1" parent="1" source="Role_Student" target="QuizAttempt" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;dashed=1;strokeColor=#1ba1e2;strokeWidth=2;entryX=0;entryY=0.5;">
+          <mxGeometry relative="1" as="geometry" />
+          <mxCell value="Take Quizzes" style="edgeLabel;html=1;align=center;fontColor=#1ba1e2;backgroundColor=#ffffff;" vertex="1" connectable="0" parent="perm_stu_qa">
+             <mxGeometry x="-0.1" y="0" relative="1" as="geometry"><mxPoint as="offset" /></mxGeometry>
+          </mxCell>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

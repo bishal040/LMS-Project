@@ -22,7 +22,7 @@ export default function BlogPage() {
 
   const fetchPosts = async () => {
     try {
-      const data = await getBlogs();
+      const data = await getBlogs('filters[status][$eq]=published');
       setPosts(data?.data || []);
     } catch (err) {
       console.error('Failed to fetch posts:', err);

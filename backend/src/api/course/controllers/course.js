@@ -16,49 +16,62 @@ module.exports = createCoreController('api::course.course', ({ strapi }) => ({
     const user = ctx.state.user;
     if (!user) return ctx.unauthorized('You must be logged in');
 
-    // Set instructor to current user
+    // Set instructor to current user. Strapi 5 uses documentId for relations.
+    const requestData = ctx.request.body?.data || {};
     ctx.request.body.data = {
-      ...ctx.request.body.data,
-      instructor: user.id,
+      ...requestData,
+      instructor: user.documentId,
     };
 
-    const response = await super.create(ctx);
-    return response;
+    return await super.create(ctx);
+  },
+
+  // Helper to accurately fetch role
+  async getRole(user) {
+    if (!user) return '';
+    if (user.role && (user.role.type || user.role.name)) {
+      return (user.role.type || user.role.name).toLowerCase();
+    }
+    if (user.documentId) {
+      const fullUser = await strapi.documents('plugin::users-permissions.user').findOne({
+        documentId: user.documentId,
+        populate: ['role'],
+      });
+      return (fullUser?.role?.type || fullUser?.role?.name || '').toLowerCase();
+    }
+    return '';
   },
 
   // Override find: role-based filtering
   async find(ctx) {
     const user = ctx.state.user;
-    const role = user?.role?.type || '';
+    const role = await this.getRole(user);
 
-    if (['admin', 'content_manager'].includes(role)) {
+    const existingFilters = (typeof ctx.query.filters === 'object' && !Array.isArray(ctx.query.filters)) 
+      ? ctx.query.filters 
+      : {};
+
+    if (['admin', 'content_manager', 'content manager'].includes(role)) {
       // Admin & CM see ALL courses (including drafts)
-      // No filter applied
+      ctx.query.filters = existingFilters;
     } else if (role === 'instructor') {
       // Instructors see: all published courses + their own drafts
-      ctx.query = {
-        ...ctx.query,
-        filters: {
-          ...ctx.query.filters,
-          $or: [
-            { status: { $eq: 'published' } },
-            { instructor: { id: user.id } },
-          ],
-        },
+      ctx.query.filters = {
+        ...existingFilters,
+        $or: [
+          { status: { $eq: 'published' } },
+          { instructor: { documentId: { $eq: user.documentId } } },
+        ],
       };
     } else {
       // Students & Public: only published courses
-      ctx.query = {
-        ...ctx.query,
-        filters: {
-          ...ctx.query.filters,
-          status: { $eq: 'published' },
-        },
+      ctx.query.filters = {
+        ...existingFilters,
+        status: { $eq: 'published' },
       };
     }
 
-    const response = await super.find(ctx);
-    return response;
+    return await super.find(ctx);
   },
 
   // Override update to check ownership for instructors
@@ -66,7 +79,7 @@ module.exports = createCoreController('api::course.course', ({ strapi }) => ({
     const user = ctx.state.user;
     if (!user) return ctx.unauthorized('You must be logged in');
 
-    const role = user.role?.type || '';
+    const role = await this.getRole(user);
 
     // Instructors can only update their own courses
     if (role === 'instructor') {
@@ -75,13 +88,12 @@ module.exports = createCoreController('api::course.course', ({ strapi }) => ({
         populate: ['instructor'],
       });
 
-      if (!course || course.instructor?.id !== user.id) {
+      if (!course || course.instructor?.documentId !== user.documentId) {
         return ctx.forbidden('You can only edit your own courses');
       }
     }
 
-    const response = await super.update(ctx);
-    return response;
+    return await super.update(ctx);
   },
 
   // Override delete to check ownership for instructors
@@ -89,7 +101,7 @@ module.exports = createCoreController('api::course.course', ({ strapi }) => ({
     const user = ctx.state.user;
     if (!user) return ctx.unauthorized('You must be logged in');
 
-    const role = user.role?.type || '';
+    const role = await this.getRole(user);
 
     if (role === 'instructor') {
       const course = await strapi.documents('api::course.course').findOne({
@@ -97,12 +109,11 @@ module.exports = createCoreController('api::course.course', ({ strapi }) => ({
         populate: ['instructor'],
       });
 
-      if (!course || course.instructor?.id !== user.id) {
+      if (!course || course.instructor?.documentId !== user.documentId) {
         return ctx.forbidden('You can only delete your own courses');
       }
     }
 
-    const response = await super.delete(ctx);
-    return response;
-  },
+    return await super.delete(ctx);
+  }
 }));

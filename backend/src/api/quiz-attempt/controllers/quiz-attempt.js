@@ -52,7 +52,8 @@ module.exports = createCoreController('api::quiz-attempt.quiz-attempt', ({ strap
 
     if (!quiz) return ctx.notFound('Quiz not found');
 
-    const questions = quiz.questions || [];
+    /** @type {any[]} */
+    const questions = Array.isArray(quiz.questions) ? quiz.questions : [];
     const totalQuestions = questions.length;
 
     // Step 2: Grade each answer by comparing with correct answer

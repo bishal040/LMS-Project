@@ -146,8 +146,9 @@ export const getMyQuizAttempts = async (quizId = null) => {
 /**
  * Blog API
  */
-export const getBlogs = async () => {
-  const response = await api.get('/blog-posts?populate=author&sort=publishedAt:desc');
+export const getBlogs = async (customFilters = '') => {
+  const query = customFilters ? `&${customFilters}` : '';
+  const response = await api.get(`/blog-posts?populate=author&sort=publishedAt:desc${query}`);
   return response.data;
 };
 
