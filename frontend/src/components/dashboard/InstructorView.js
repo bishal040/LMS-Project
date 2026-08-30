@@ -33,6 +33,7 @@ export default function InstructorView() {
   const [lessonData, setLessonData] = useState({ title: '', content: '', videoUrl: '', order: 0 });
   const [quizData, setQuizData] = useState({ title: '', questions: [{ question: '', options: ['', '', '', ''], correctAnswer: 0 }] });
   const [submitting, setSubmitting] = useState(false);
+  const [editingCourseId, setEditingCourseId] = useState(null);
 
   const [editingLessonId, setEditingLessonId] = useState(null);
   const [editingQuizId, setEditingQuizId] = useState(null);
@@ -71,16 +72,34 @@ export default function InstructorView() {
     }
     setSubmitting(true);
     try {
-      await createCourse({ ...formData, status: 'draft' });
-      toast.success('Course created successfully!');
+      if (editingCourseId) {
+        await updateCourse(editingCourseId, formData);
+        toast.success('Course updated successfully!');
+      } else {
+        await createCourse({ ...formData, status: 'draft' });
+        toast.success('Course created successfully!');
+      }
       setShowCreateModal(false);
+      setEditingCourseId(null);
       setFormData({ title: '', description: '', category: '', coverImageUrl: '' });
       fetchCourses();
     } catch (err) {
-      toast.error(err.message || 'Failed to create course');
+      toast.error(err.message || 'Failed to save course');
     } finally {
       setSubmitting(false);
     }
+  };
+
+  const handleEditCourseSetup = (course) => {
+    const attrs = course.attributes || course;
+    setEditingCourseId(course.documentId || course.id);
+    setFormData({
+      title: attrs.title || '',
+      description: attrs.description || '',
+      category: attrs.category || '',
+      coverImageUrl: attrs.coverImageUrl || '',
+    });
+    setShowCreateModal(true);
   };
 
   const handleToggleStatus = async (course) => {
@@ -262,8 +281,12 @@ export default function InstructorView() {
             </div>
           </div>
           <button
-            onClick={() => setShowCreateModal(true)}
-            className="flex items-center gap-2 px-6 py-3 bg-primary text-white text-xs font-black uppercase tracking-widest rounded-2xl shadow-lg shadow-primary/20 hover:shadow-xl transition-all active:scale-95"
+            onClick={() => {
+              setEditingCourseId(null);
+              setFormData({ title: '', description: '', category: '', coverImageUrl: '' });
+              setShowCreateModal(true);
+            }}
+            className="flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-primary/90 hover:-translate-y-1 transition-all shadow-lg shadow-primary/25"
           >
             <FiPlus /> New Course
           </button>
@@ -378,8 +401,15 @@ export default function InstructorView() {
                         {attrs.status === 'published' ? <FiEyeOff className="w-4 h-4" /> : <FiEye className="w-4 h-4" />}
                       </button>
                       <button
+                        onClick={() => handleEditCourseSetup(course)}
+                        className="w-10 h-10 rounded-xl bg-surface border border-border flex items-center justify-center text-muted hover:text-primary hover:border-primary/30 transition-colors"
+                        title="Edit Course"
+                      >
+                        <FiEdit3 className="w-4 h-4" />
+                      </button>
+                      <button
                         onClick={() => handleDeleteCourse(course)}
-                        className="p-3 bg-background border border-border rounded-xl hover:border-error/30 hover:text-error transition-all"
+                        className="w-10 h-10 rounded-xl bg-surface border border-border flex items-center justify-center text-muted hover:text-error hover:border-error/30 transition-colors"
                         title="Delete Course"
                       >
                         <FiTrash2 className="w-4 h-4" />
@@ -400,7 +430,7 @@ export default function InstructorView() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
-              onClick={() => setShowCreateModal(false)}
+              onClick={() => { setShowCreateModal(false); setEditingCourseId(null); }}
             >
               <motion.div
                 initial={{ scale: 0.9, y: 20 }}
@@ -410,8 +440,8 @@ export default function InstructorView() {
                 className="bg-surface border border-border rounded-[2rem] p-5 sm:p-8 w-full max-w-lg max-h-[90vh] overflow-y-auto shadow-2xl"
               >
                 <div className="flex items-center justify-between mb-4 sm:mb-6">
-                  <h2 className="text-xl font-black tracking-tight">Create New Course</h2>
-                  <button onClick={() => setShowCreateModal(false)} className="p-2 hover:bg-background rounded-xl transition-colors"><FiX className="w-5 h-5" /></button>
+                  <h2 className="text-xl font-black tracking-tight">{editingCourseId ? 'Edit Course' : 'Create New Course'}</h2>
+                  <button onClick={() => { setShowCreateModal(false); setEditingCourseId(null); }} className="p-2 hover:bg-background rounded-xl transition-colors"><FiX className="w-5 h-5" /></button>
                 </div>
                 <form onSubmit={handleCreateCourse} className="space-y-4">
                   <div>
@@ -431,7 +461,7 @@ export default function InstructorView() {
                     <input type="text" value={formData.coverImageUrl} onChange={(e) => setFormData({ ...formData, coverImageUrl: e.target.value })} placeholder="https://example.com/image.jpg" className="w-full px-4 py-3.5 bg-background border border-border rounded-2xl text-foreground placeholder:text-muted/50 focus:outline-none focus:ring-2 focus:ring-ring text-sm font-medium" />
                   </div>
                   <button type="submit" disabled={submitting} className="w-full py-4 bg-primary text-white text-sm font-black uppercase tracking-widest rounded-2xl shadow-lg shadow-primary/20 hover:shadow-xl transition-all flex items-center justify-center gap-2 disabled:opacity-50 active:scale-[0.98]">
-                    {submitting ? <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <><FiCheck /> Create Course</>}
+                    {submitting ? <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <><FiCheck /> {editingCourseId ? 'Save Changes' : 'Create Course'}</>}
                   </button>
                 </form>
               </motion.div>
