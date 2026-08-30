@@ -227,8 +227,11 @@ module.exports = {
       }
 
       // ── 9. Seed Demo Data ─────────────────────────────────────────
-      const courseCount = await strapi.db.query('api::course.course').count();
-      if (courseCount === 0) {
+      const demoCourseExists = await strapi.db.query('api::course.course').findOne({
+        where: { title: 'Demo Course 1: Mastering Programming' }
+      });
+      
+      if (!demoCourseExists) {
         console.log('🌱 Seeding demo courses...');
         let instructorUser = await strapi.db.query('plugin::users-permissions.user').findOne({
           where: { email: 'demo_instructor@example.com' },
