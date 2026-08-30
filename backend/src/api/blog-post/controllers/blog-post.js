@@ -31,13 +31,14 @@ module.exports = createCoreController('api::blog-post.blog-post', ({ strapi }) =
           body: inputData.body,
           coverImageUrl: inputData.coverImageUrl || '',
           status: inputData.status || 'draft',
-          author: user.id,
+          author: user.documentId,
           publishedAt: inputData.status === 'published' ? new Date().toISOString() : null,
         },
         populate: ['author'],
       });
 
-      return { data: entry };
+      const sanitizedEntity = await this.sanitizeOutput(entry, ctx);
+      return this.transformResponse(sanitizedEntity);
     } catch (err) {
       strapi.log.error('Blog create error:', err);
       return ctx.badRequest(err.message || 'Failed to create blog post');
@@ -65,7 +66,8 @@ module.exports = createCoreController('api::blog-post.blog-post', ({ strapi }) =
         populate: ['author'],
       });
 
-      return { data: entry };
+      const sanitizedEntity = await this.sanitizeOutput(entry, ctx);
+      return this.transformResponse(sanitizedEntity);
     } catch (err) {
       strapi.log.error('Blog update error:', err);
       return ctx.badRequest(err.message || 'Failed to update blog post');

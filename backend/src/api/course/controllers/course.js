@@ -37,7 +37,8 @@ module.exports = createCoreController('api::course.course', ({ strapi }) => ({
         populate: ['instructor'],
       });
 
-      return { data: entry };
+      const sanitizedEntity = await this.sanitizeOutput(entry, ctx);
+      return this.transformResponse(sanitizedEntity);
     } catch (err) {
       strapi.log.error('Course create error:', err);
       return ctx.badRequest(err.message || 'Failed to create course');
